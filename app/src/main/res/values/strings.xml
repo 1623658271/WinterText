@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">WinterText</string>
+    <string name="app_name">寒假考核</string>
+    <string name="guide_game">游戏</string>
+    <string name="guide_store">商店</string>
+    <string name="guide_msg">消息</string>
+    <string name="guide_setting">设置</string>
+    <string name="change_nv_image">更换头像</string>
+    <string name="watch_weather">查看当前天气</string>
+    <string name="game_rule">游戏规则</string>
+    <string name="save_data">存档</string>
+    <string name="leave">退出</string>
+    <string name="toolbar_item1">广告</string>
+    <string name="toolbar_take_photo">截屏</string>
 </resources>
