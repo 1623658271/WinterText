@@ -5,6 +5,13 @@
     android:background="@drawable/yasuo"
     android:orientation="vertical">
 
+    <TextView
+        android:text="@string/null_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="30sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/game_situation_rv"
         android:layout_width="match_parent"

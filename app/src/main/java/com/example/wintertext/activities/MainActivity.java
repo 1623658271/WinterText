@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,9 +26,12 @@ import com.example.wintertext.fragments.FragmentGame_situation1;
 import com.example.wintertext.fragments.FragmentMessage;
 import com.example.wintertext.fragments.FragmentSetting;
 import com.example.wintertext.fragments.FragmentStore;
+import com.example.wintertext.utilities.MyDatabaseHelper;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import org.litepal.LitePal;
 
 import java.util.ArrayList;
 
@@ -37,16 +41,19 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private FragmentPagerAdapter adapter1;
     private RadioGroup radioGroup;
     private Toolbar toolbar;
+    private MyDatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CreateTable();
         setContentView(R.layout.activity_main);
         initView();//加载控件
         initAddViewPager2();//添加适配器和fragment
         initEvent();//设置各种事件
     }
 
+    //添加适配器，fragment以及页面联动按钮
     private void initAddViewPager2() {
         radioGroup.setOnCheckedChangeListener(this);
         viewPager2.setAdapter(adapter1);
@@ -95,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         });
     }
 
-    //RadioGroup按钮
+    //RadioGroup按钮与页面联动
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i){
@@ -131,5 +138,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 break;
         }
         return true;
+    }
+
+    //创建SQLite数据库
+    private void CreateTable(){
+        dbHelper = new MyDatabaseHelper(this,"Game.db",null,1);
+        dbHelper.getWritableDatabase();
     }
 }

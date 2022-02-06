@@ -7,170 +7,128 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:id="@+id/ll_player_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499">
-
-        <ImageView
-            android:id="@+id/iv_player_left"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_game_way"
-            tools:layout_editor_absoluteX="177dp"
-            tools:layout_editor_absoluteY="3dp" />
-
-        <CheckBox
-            android:id="@+id/cb_player_left"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:visibility="invisible" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_player_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499">
-
-        <CheckBox
-            android:id="@+id/cb_player_right"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/iv_player_right"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_game_way"
-            tools:layout_editor_absoluteX="177dp"
-            tools:layout_editor_absoluteY="3dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_player1_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/ll_player_top"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <ImageView
-            android:id="@+id/iv_player1_main"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_baseline_gps_not_fixed_24"
-            tools:layout_editor_absoluteX="177dp"
-            tools:layout_editor_absoluteY="3dp" />
-
-        <CheckBox
-            android:id="@+id/cb_player1_main"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"
-            android:visibility="invisible" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_player2_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
-
-        <CheckBox
-            android:id="@+id/cb_player2_main"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/iv_player2_main"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_baseline_gps_not_fixed_24"
-            tools:layout_editor_absoluteX="177dp"
-            tools:layout_editor_absoluteY="3dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_player_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/location1"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:checkable="true"
+        app:backgroundTint="@null"
+        android:text="@string/door_1"
+        android:textColor="@color/red"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:background="@drawable/game_select_botton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.291">
+        app:layout_constraintVertical_bias="0.0" />
 
-        <ImageView
-            android:id="@+id/iv_player_top"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_game_way"
-            tools:layout_editor_absoluteX="177dp"
-            tools:layout_editor_absoluteY="3dp" />
-
-        <CheckBox
-            android:id="@+id/cb_player_top"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"
-            android:visibility="invisible" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_player_bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/ll_player2_main"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/location2"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/game_select_botton"
+        android:checkable="true"
+        app:backgroundTint="@null"
+        android:text="@string/door_4"
+        android:textSize="30sp"
+        android:textColor="@color/teal_200"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_player_top"
-        app:layout_constraintVertical_bias="0.704">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.549" />
 
-        <CheckBox
-            android:id="@+id/cb_player_bottom"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"
-            android:visibility="invisible" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/location3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/game_select_botton"
+        android:checkable="true"
+        app:backgroundTint="@null"
+        android:text="@string/door_left"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.289" />
 
-        <ImageView
-            android:id="@+id/iv_player_bottom"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_game_way"
-            tools:layout_editor_absoluteX="177dp"
-            tools:layout_editor_absoluteY="3dp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/location4"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/game_select_botton"
+        android:checkable="true"
+        app:backgroundTint="@null"
+        android:text="@string/door_right"
+        android:textColor="@color/blue"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.991"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.289" />
 
-    </LinearLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_game_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/game_start"
+        android:textSize="25sp"
+        app:backgroundTint="@color/black"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location2"
+        app:layout_constraintVertical_bias="0.176"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/game_select_in"
+        android:visibility="gone"
+        android:textSize="25sp"
+        app:backgroundTint="@color/blue"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_game_start"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.696"
+        app:strokeColor="@color/red"
+        app:strokeWidth="3dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/game_not_in"
+        android:visibility="gone"
+        android:textSize="25sp"
+        app:backgroundTint="@color/blue"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button_game_start"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.696"
+        app:strokeColor="@color/red"
+        app:strokeWidth="3dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

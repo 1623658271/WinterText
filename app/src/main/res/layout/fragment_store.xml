@@ -1,8 +1,408 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/shangdian">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/store_name_1"
+        android:textColor="@color/red"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.109" />
 
+    <LinearLayout
+        android:id="@+id/ll_equipment1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.295">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_money" />
+
+            <TextView
+                android:id="@+id/need_money_eqm1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="450"
+                android:textColor="@color/yellow" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/eqm1"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/duolan"
+            android:clickable="true"
+            android:textAlignment="center"
+            android:tooltipText="+10攻击 +3生命偷取" />
+
+        <TextView
+            android:id="@+id/eqm1_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/eqm1"
+            android:textColor="@color/yellow"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_buy_eqm1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="购买"
+            android:textSize="15dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/yellow"
+            app:strokeWidth="2sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_equipment2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.295">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_money" />
+
+            <TextView
+                android:id="@+id/need_money_eqm2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="450"
+                android:textColor="@color/yellow" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/eqm2"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/suozijia"
+            android:clickable="true"
+            android:textAlignment="center"
+            android:tooltipText="+50防御" />
+
+        <TextView
+            android:id="@+id/eqm2_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/eqm2"
+            android:textColor="@color/yellow"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_buy_eqm2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="购买"
+            android:textSize="15dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/yellow"
+            app:strokeWidth="2sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_equipment3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.295">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_money" />
+
+            <TextView
+                android:id="@+id/need_money_eqm3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="900"
+                android:textColor="@color/yellow" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/eqm3"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/juren"
+            android:clickable="true"
+            android:textAlignment="center"
+            android:tooltipText="+480生命值" />
+
+        <TextView
+            android:id="@+id/eqm3_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/eqm3"
+            android:textColor="@color/yellow"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_buy_eqm3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="购买"
+            android:textSize="15dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/yellow"
+            app:strokeWidth="2sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_equipment4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.046"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.688">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_money" />
+
+            <TextView
+                android:id="@+id/need_money_eqm4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="3400"
+                android:textColor="@color/yellow" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/eqm4"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/eqm_buxiudungong"
+            android:clickable="true"
+            android:textAlignment="center"
+            android:tooltipText="+50攻击 +10暴击 /救主灵刃/" />
+
+        <TextView
+            android:id="@+id/eqm4_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/eqm4"
+            android:textColor="@color/yellow"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_buy_eqm4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="购买"
+            android:textSize="15dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/yellow"
+            app:strokeWidth="2sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_equipment5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.688">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_money" />
+
+            <TextView
+                android:id="@+id/need_money_eqm5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="3400"
+                android:textColor="@color/yellow" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/eqm5"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/wujingzhiren"
+            android:clickable="true"
+            android:textAlignment="center"
+            android:tooltipText="+70攻击 +20暴击" />
+
+        <TextView
+            android:id="@+id/eqm5_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/eqm5"
+            android:textColor="@color/yellow"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_buy_eqm5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="购买"
+            android:textSize="15dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/yellow"
+            app:strokeWidth="2sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_equipment6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.688">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_money" />
+
+            <TextView
+                android:id="@+id/need_money_eqm6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="3400"
+                android:textColor="@color/yellow" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/eqm6"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/yinxiejian"
+            android:clickable="true"
+            android:textAlignment="center"
+            android:tooltipText="+55攻击 +10暴击 +20生命偷取" />
+
+        <TextView
+            android:id="@+id/eqm6_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/eqm6"
+            android:textColor="@color/yellow"
+            android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_buy_eqm6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="购买"
+            android:textSize="15dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="10dp"
+            app:strokeColor="@color/yellow"
+            app:strokeWidth="2sp" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

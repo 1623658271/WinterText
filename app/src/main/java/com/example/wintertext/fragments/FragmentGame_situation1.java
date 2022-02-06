@@ -22,4 +22,12 @@ public class FragmentGame_situation1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_game_fragment_situation1,container,false);
     }
+
+    public void getDataFromGameInActivity(){
+        Bundle bundle = FragmentGame_situation1.this.getArguments();
+        bundle.getInt("A_life");
+        bundle.getInt("B_life");
+        bundle.getInt("B_kill_dog_face");
+        bundle.getInt("B_get_money");
+    }
 }

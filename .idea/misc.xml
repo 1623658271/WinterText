@@ -4,14 +4,22 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/drawer_layout_logo.xml" value="0.18518518518518517" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/drawer_music_select_btn.xml" value="0.16944444444444445" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/drawer_select_btn_game.xml" value="0.1527777777777778" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/drawer_select_btn_msg.xml" value="0.1527777777777778" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/drawer_select_btn_setting.xml" value="0.1527777777777778" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/drawer_select_btn_store.xml" value="0.1527777777777778" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/game_select_botton.xml" value="0.14537037037037037" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic___2.xml" value="0.1527777777777778" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_baseline_gps_not_fixed_24.xml" value="0.12395833333333334" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_baseline_local_see_24.xml" value="0.12395833333333334" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.14537037037037037" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_defense.xml" value="0.16944444444444445" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_dodge.xml" value="0.16944444444444445" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_game_arrows.xml" value="0.15555555555555556" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_game_location_blue.xml" value="0.16944444444444445" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_game_rule.xml" value="0.14537037037037037" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_game_way.xml" value="0.14537037037037037" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_launcher_background.xml" value="0.18518518518518517" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_message.xml" value="0.1527777777777778" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_selected_game.xml" value="0.1527777777777778" />
@@ -21,19 +29,21 @@
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_start_game.xml" value="0.1527777777777778" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/ic_store.xml" value="0.1527777777777778" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/drawable/text_select_color.xml" value="0.1527777777777778" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/activity_game_in.xml" value="0.25" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/drawer_layout.xml" value="0.10739614994934144" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_game.xml" value="0.165" />
-        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_game_fragment_game1.xml" value="0.165" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_game_fragment_game1.xml" value="0.25" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_game_fragment_situation1.xml" value="0.25" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_message.xml" value="0.14492753623188406" />
-        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_setting.xml" value="0.14492753623188406" />
-        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_store.xml" value="0.125" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_setting.xml" value="0.25" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_store.xml" value="0.25" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/navigation_layout.xml" value="0.165" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/situation_msg_item.xml" value="0.11322463768115942" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/title_layout.xml" value="0.165" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/menu/nv_menu.xml" value="0.165" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/menu/toolbar_menu.xml" value="0.335" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/xml/litepal.xml" value="0.13043478260869565" />
       </map>
     </option>
   </component>
