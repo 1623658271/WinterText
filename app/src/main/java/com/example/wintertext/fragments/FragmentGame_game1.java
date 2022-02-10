@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
     private View view;
     private List<MaterialButton> buttons;
     private ButtonChange buttonChanges;
+    private String winner2;
 
     @Nullable
     @Override
@@ -89,7 +91,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
     public void onClick(View view) {
         //设置一个小动画
         ObjectAnimator animator = ObjectAnimator.ofFloat(button_start, "alpha", 1f, 0f);
-        animator.setDuration(1000);
+        animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -105,6 +107,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
                 buttonChanges.startSelect();
                 break;
             case R.id.button_ok:
+                Log.d("123", "onActivityResult: "+"winner"+winner2);
                 boolean stop = false;
                     //是否选中一门
                     for (MaterialButton materialButton : buttons) {
@@ -140,12 +143,35 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
                 i = materialButton.getId();
             }
         }
-        GameInActivity.startGameInActivity(getContext(),i);
+        Intent intent = new Intent(getContext(),GameInActivity.class);
+        intent.putExtra("door",i);
+        startActivityForResult(intent,1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode == 1 && requestCode == 1){
+            if(data!=null) {
+                Bundle bundle = data.getExtras();
+                int final_A_life = bundle.getInt("final_A_life");
+                int final_B_life = bundle.getInt("final_B_life");
+                int all_dogface_hurt_to_A = bundle.getInt("all_dogface_hurt_to_A");
+                int all_dogface_hurt_to_B = bundle.getInt("all_dogface_hurt_to_B");
+                int all_A_hurt_to_B = bundle.getInt("all_A_hurt_to_B");
+                int ll_B_hurt_to_A = bundle.getInt("all_B_hurt_to_A");
+                int all_A_hui_fu = bundle.getInt("all_A_hui_fu");
+                int all_B_hui_fu = bundle.getInt("all_B_hui_fu");
+                String winner = bundle.getString("winner");
+                winner2 = winner;
+            }
+        }
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("123", "onActivityResult: "+"winner"+winner2);
         buttonChanges.cancelAll();
         buttonChanges.stopSelect();
         button_start.setVisibility(View.VISIBLE);

@@ -3,9 +3,59 @@ package com.example.wintertext.beans;
 
 import org.litepal.crud.LitePalSupport;
 
-//为游戏1新建一个属性实体类
+//为游戏新建一个玩家属性类
 public class GamePlayer {
-    private int attack, Life, defense, strike, money;
+    private int attack, Life, defense, strike, money, steal, exc, max_exc,grade;
+    private String[] equipments;
+    private String name;
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getExc() {
+        return exc;
+    }
+
+    public int getMax_exc() {
+        return max_exc;
+    }
+
+    public int getSteal() {
+        return steal;
+    }
+
+    public String[] getEquipments() {
+        return equipments;
+    }
+
+    public void setEquipments(String[] equipments) {
+        this.equipments = equipments;
+    }
+
+    public void setExc(int exc) {
+        this.exc = exc;
+    }
+
+    public void setMax_exc(int max_exc) {
+        this.max_exc = max_exc;
+    }
+
+    public void setSteal(int steal) {
+        this.steal = steal;
+    }
 
     public void setAttack(int attack) {
         this.attack = attack;

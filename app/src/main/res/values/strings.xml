@@ -15,7 +15,7 @@
     <string name="door_4">生</string>
     <string name="game_select_in">确定</string>
     <string name="door_1">死</string>
-    <string name="door_right">惊</string>
+    <string name="door_right">兵</string>
     <string name="door_left">景</string>
     <string name="game_not_in">取消</string>
     <string name="person_life">生命值:</string>

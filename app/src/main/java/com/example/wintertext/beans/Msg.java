@@ -3,6 +3,7 @@ package com.example.wintertext.beans;
 public class Msg {
     public static final int TYPE_A = 0;
     public static final int TYPE_B = 1;
+    public static final int TYPE_C = 2;
     private String content;
     private int type;
     public Msg(String content,int type){

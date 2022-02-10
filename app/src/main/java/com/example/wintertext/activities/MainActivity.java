@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.animation.ObjectAnimator;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,9 +20,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.wintertext.R;
 import com.example.wintertext.adapters.FragmentPagerAdapter;
+import com.example.wintertext.beans.GamePlayer;
 import com.example.wintertext.fragments.FragmentGame;
 import com.example.wintertext.fragments.FragmentGame_game1;
 import com.example.wintertext.fragments.FragmentGame_situation1;
@@ -35,13 +40,14 @@ import org.litepal.LitePal;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener{
+public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
     private DrawerLayout drawerLayout;
     private ViewPager2 viewPager2;
     private FragmentPagerAdapter adapter1;
     private RadioGroup radioGroup;
     private Toolbar toolbar;
     private MyDatabaseHelper dbHelper;
+    private GamePlayer gamePlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         radioGroup = findViewById(R.id.radio_group_main);
         toolbar = findViewById(R.id.toolbar);
     }
-
     //设置各种事件的方法
+
     private void initEvent() {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -101,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             }
         });
     }
-
     //RadioGroup按钮与页面联动
+
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         switch (i){
@@ -125,8 +131,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         getMenuInflater().inflate(R.menu.toolbar_menu,menu);
         return true;
     }
-
     //toolbar中menu的点击事件
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
@@ -143,6 +149,51 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     //创建SQLite数据库
     private void CreateTable(){
         dbHelper = new MyDatabaseHelper(this,"Game.db",null,1);
-        dbHelper.getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String sql = "select count(*) from Game";
+        Cursor cursor = db.rawQuery(sql, null);
+        cursor.moveToFirst();
+        long count = cursor.getLong(0);//根据Count判断是否为空
+        cursor.close();
+        if(count == 0){
+            ContentValues values = new ContentValues();
+            //初始化亚索数据
+            values.put("name","yasuo");
+            values.put("life",585);
+            values.put("attack",68);
+            values.put("defense",30);
+            values.put("strike",0);
+            values.put("steal",0);
+            values.put("exc",0);
+            values.put("max_exc",0);
+            values.put("grade",1);
+            db.insert("Game",null,values);
+            values.clear();
+            //初始化永恩数据
+            values.put("name","yong_en");
+            values.put("life",630);
+            values.put("attack",73);
+            values.put("defense",34);
+            values.put("strike",10);
+            values.put("steal",20);
+            values.put("exc",0);
+            values.put("max_exc",0);
+            values.put("grade",1);
+            db.insert("Game",null,values);
+            values.clear();
+            //初始化炮车数据
+            values.put("name","pao_che");
+            values.put("life",912);
+            values.put("attack",41);
+            values.put("defense",0);
+            values.put("strike",0);
+            values.put("steal",0);
+            values.put("exc",0);
+            values.put("max_exc",0);
+            values.put("grade",1);
+            db.insert("Game",null,values);
+            values.clear();
+            Toast.makeText(this, "初始化数据完成", Toast.LENGTH_SHORT).show();
+        }
     }
 }
