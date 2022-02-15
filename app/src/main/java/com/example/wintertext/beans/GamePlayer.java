@@ -1,8 +1,11 @@
 package com.example.wintertext.beans;
 
-
-import org.litepal.crud.LitePalSupport;
-
+/**
+ * description ： TODO:玩家属性类
+ * author : lfy
+ * email : 1623658271@qq.com
+ * date : 2022/2/3 21:02
+ */
 //为游戏新建一个玩家属性类
 public class GamePlayer {
     private int attack, Life, defense, strike, money, steal, exc, max_exc,grade;

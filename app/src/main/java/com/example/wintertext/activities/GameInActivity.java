@@ -23,7 +23,6 @@ import com.example.wintertext.adapters.MsgGameInAdapter;
 import com.example.wintertext.beans.Dogface;
 import com.example.wintertext.beans.GamePlayer;
 import com.example.wintertext.beans.Msg;
-import com.example.wintertext.fragments.FragmentSetting;
 import com.example.wintertext.utilities.ImageButtonClick;
 import com.example.wintertext.utilities.MyDatabaseHelper;
 import com.google.android.material.button.MaterialButton;
@@ -31,7 +30,15 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+/**
+ * description ： TODO:游戏界面以及相关操作
+ * author : lfy
+ * email : 1623658271@qq.com
+ * date : 2022/2/3 18:59
+ */
 public class GameInActivity extends AppCompatActivity {
     private MsgGameInAdapter adapter;
     private RecyclerView recyclerView;
@@ -40,10 +47,12 @@ public class GameInActivity extends AppCompatActivity {
     private Dogface dogface;
     private int number_dogface = 1;
     private int kill_dogface = 0;
+    private int get_money;
     private int exc = 0;
+    private MaterialButton kill_dogface_btn;
     private MyDatabaseHelper dbHelper;
     private SQLiteDatabase db;
-    private TextView yong_en_life,yasuo_life,hui_he,cao_zuo;
+    private TextView yong_en_life,yasuo_life,cao_zuo,hui_he;
     private ImageButton q,w,e,r;
     private int number_hui_he = 0;
     private Random random = new Random();
@@ -75,6 +84,8 @@ public class GameInActivity extends AppCompatActivity {
     private boolean strike_yasuo = false;
     private boolean SI = false,SHENG = false,BING = false,JING = false;
     private String winner = null;
+    private String TAG = "123";
+    private ExecutorService executorService = Executors.newCachedThreadPool();
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -156,8 +167,8 @@ public class GameInActivity extends AppCompatActivity {
         db = dbHelper.getWritableDatabase();
         yong_en_life = findViewById(R.id.game_in_number_yongen_life);
         yasuo_life = findViewById(R.id.game_in_number_yasuo_life);
-        hui_he = findViewById(R.id.tv_number_huihe);
         cao_zuo = findViewById(R.id.tv_cao_zuo);
+        hui_he = findViewById(R.id.tv_number_huihe);
         q_number_image = findViewById(R.id.q_number);
         w_number_image = findViewById(R.id.w_number);
         l1 = findViewById(R.id.yongen_setting);
@@ -173,6 +184,7 @@ public class GameInActivity extends AppCompatActivity {
         dogface_attack = findViewById(R.id.dogface_attack);
         btn_l1 = findViewById(R.id.btn_rival_setting);
         btn_l2 = findViewById(R.id.btn_personal_setting);
+        kill_dogface_btn = findViewById(R.id.get_dogface_money);
         q = findViewById(R.id.q);
         w = findViewById(R.id.w);
         e = findViewById(R.id.e);
@@ -207,16 +219,16 @@ public class GameInActivity extends AppCompatActivity {
 
     public  void gamePlay(boolean SI,boolean SHENG,boolean JING,boolean BING){
             if(SI){
-                yong_en.setAttack(yong_en.getAttack()*3);
-                yong_en.setDefense(yong_en.getDefense()*3);
-                yong_en.setLife(yong_en.getLife()*3);
-                yong_en.setStrike(yong_en.getStrike()*10);
-                yong_en.setSteal(yong_en.getSteal()*2);
+                yong_en.setAttack(yong_en.getAttack()*4);
+                yong_en.setDefense(yong_en.getDefense()*4);
+                yong_en.setLife(yong_en.getLife()*4);
+                yong_en.setStrike(yong_en.getStrike()*4);
+                yong_en.setSteal(yong_en.getSteal()*4);
                 yong_en_life.setText(String.valueOf(yong_en.getLife()));
             }
             if(SHENG){
-                ya_suo.setLife(ya_suo.getLife()*2);
-                ya_suo.setDefense(ya_suo.getDefense()*2);
+                ya_suo.setLife((int)(ya_suo.getLife()*1.5));
+                ya_suo.setDefense((int)(ya_suo.getDefense()*1.5));
                 yasuo_life.setText(String.valueOf(ya_suo.getLife()));
             }
             if(BING){
@@ -230,6 +242,13 @@ public class GameInActivity extends AppCompatActivity {
 
             A_life = yong_en.getLife();
             B_life = ya_suo.getLife();
+
+            kill_dogface_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    kill_solve();
+                }
+            });
 
             q.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -275,6 +294,112 @@ public class GameInActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+
+    private void kill_solve() {
+        initStrike();
+        imageButtonClick.StopClick(null);
+        kill_dogface_btn.setEnabled(false);
+        int a = 0;
+        if(!happy){
+            number_hui_he++;
+            a = yong_en_all_hurt(4);
+            start();
+        }
+        if(!happy) {
+            //永恩操作
+            if (A_ji_fei) {
+                personal_yongen_jifei(a);
+            } else {
+                personal_yongen(a);
+            }
+            if(!happy) {
+                executorService.execute(new dogface_attack_show(600));
+            }
+        }
+            int n = random.nextInt(8 + ya_suo.getGrade());
+            kill_dogface+=n;
+            String x = "\n疾风剑豪成功补刀"+n+"个小兵\n";
+            executorService.execute(new kill_dogface_show(x));
+        update();
+        if(yasuo_have_W){
+            w_number_image.setVisibility(View.VISIBLE);
+            w_number_image.setText(String.valueOf(w_number));
+        }
+        executorService.execute(new show_buttons(900));
+        endGame();
+    }
+
+    //回合结束后开启按钮的线程
+    class show_buttons implements Runnable{
+        private int time;
+        public show_buttons(int time){
+            this.time = time;
+        }
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(time);
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    imageButtonClick.startClick();
+                    kill_dogface_btn.setEnabled(true);
+                }
+            });
+        }
+    }
+
+    //展示补刀的线程
+    class kill_dogface_show implements Runnable{
+        private String x;
+        public kill_dogface_show(String x){
+            this.x = x;
+        }
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(400);
+                msgList.add(new Msg(x,Msg.TYPE_B));
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.scrollToPosition(msgList.size()-1);
+                }
+            });
+        }
+    }
+
+    //展示炮车攻击的线程
+    class dogface_attack_show implements Runnable{
+        private int time;
+        public dogface_attack_show(int time){
+            this.time = time;
+        }
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(time);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dogface_attack();
+                        yasuo_life.setText(String.valueOf(ya_suo.getLife()));
+                        yong_en_life.setText(String.valueOf(yong_en.getLife()));
+                    }
+                });
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }
     }
 
     //初始化双方查看属性的面板
@@ -294,79 +419,89 @@ public class GameInActivity extends AppCompatActivity {
 
     //判断结束游戏的方法
     private void endGame() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(ya_suo.getLife()==0 && yong_en.getLife()!=0){
-                            end = true;
-                            winner = yong_en.getName();
-                            imageButtonClick.endClick();
-                            AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
-                            dialog.setMessage("你输掉了对局！")
-                                    .setCancelable(false)
-                                    .setNegativeButton("查看", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            Toast.makeText(GameInActivity.this,"看一下有没有bug",Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .setPositiveButton("焯", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            finish();
-                                        }
-                                    }).show();
-                        }else if(ya_suo.getLife()!=0 && yong_en.getLife()==0){
-                            end = true;
-                            winner = ya_suo.getName();
-                            imageButtonClick.endClick();
-                            AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
-                            dialog.setMessage("你赢得了对局！")
-                                    .setCancelable(false)
-                                    .setNegativeButton("查看", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            Toast.makeText(GameInActivity.this,"看一下有没有bug",Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .setPositiveButton("奖励自己一发", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            finish();
-                                        }
-                                    }).show();
-                        }else if(ya_suo.getLife()==0 && yong_en.getLife()==0){
-                            end = true;
-                            winner = "平局";
-                            imageButtonClick.endClick();
-                            AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
-                            dialog.setMessage("平局！")
-                                    .setCancelable(false)
-                                    .setNegativeButton("查看", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            Toast.makeText(GameInActivity.this,"看一下有没有bug",Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .setPositiveButton("居然有这种事", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            finish();
-                                        }
-                                    }).show();
-                        }
-                    }
-                });
+        executorService.execute(new game_end_show(1000));
+    }
+
+    //判断游戏结束的线程
+    class game_end_show implements Runnable{
+        private int time;
+        public game_end_show(int time){
+            this.time = time;
+        }
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(time);
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
             }
-        }).start();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if(ya_suo.getLife()==0 && yong_en.getLife()!=0){
+                        end = true;
+                        winner = yong_en.getName();
+                        imageButtonClick.endClick();
+                        kill_dogface_btn.setEnabled(false);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
+                        dialog.setMessage("你输掉了对局！")
+                                .setCancelable(false)
+                                .setNegativeButton("查看", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(GameInActivity.this,"看一下有没有bug",Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setPositiveButton("焯", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).show();
+                    }else if(ya_suo.getLife()!=0 && yong_en.getLife()==0){
+                        end = true;
+                        winner = ya_suo.getName();
+                        imageButtonClick.endClick();
+                        kill_dogface_btn.setEnabled(false);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
+                        dialog.setMessage("你赢得了对局！")
+                                .setCancelable(false)
+                                .setNegativeButton("查看", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(GameInActivity.this,"看一下有没有bug",Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setPositiveButton("芜湖", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).show();
+                    }else if(ya_suo.getLife()==0 && yong_en.getLife()==0){
+                        end = true;
+                        winner = "平局";
+                        imageButtonClick.endClick();
+                        kill_dogface_btn.setEnabled(false);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
+                        dialog.setMessage("平局！")
+                                .setCancelable(false)
+                                .setNegativeButton("查看", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(GameInActivity.this,"看一下有没有bug",Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setPositiveButton("居然有这种事", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                }).show();
+                    }
+                }
+            });
+        }
     }
 
     //回合开始时的界面操作
@@ -375,7 +510,7 @@ public class GameInActivity extends AppCompatActivity {
         B_life = ya_suo.getLife();
         cao_zuo.setVisibility(View.VISIBLE);
         hui_he.setText(String.valueOf(number_hui_he));
-        msgList.add(new Msg("回合"+number_hui_he,Msg.TYPE_C));
+        msgList.add(new Msg("\n回合"+number_hui_he,Msg.TYPE_C));
         if(yasuo_have_W) {
             w_number--;
             if (w_number <= 0) {
@@ -394,62 +529,81 @@ public class GameInActivity extends AppCompatActivity {
     }
 
     //显示亚索Q的层数并组织语言的方法
-    private void yasuo_q_and_message(int time,int q_number_x){
-        String a = B_message;
-        int n = q_number_x;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(time);
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
-                msgList.add(new Msg(a, Msg.TYPE_B));
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        yasuo_life.setText(String.valueOf(ya_suo.getLife()));
-                        yong_en_life.setText(String.valueOf(yong_en.getLife()));
-                        if(n!=0 && B_jn.equals("斩钢闪")) {
-                            in_show_number(B_jn, q_number, Msg.TYPE_B);
-                        }
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.scrollToPosition(msgList.size() - 1);
-                    }
-                });
+    private void yasuo_q_and_message(int time,String Bjn,int q_number_x){
+        executorService.execute(new Thread_yasuo_q_and_message(time,B_message,Bjn,q_number_x));
+    }
+
+    //亚索展示消息或者q层数的线程
+    class Thread_yasuo_q_and_message implements Runnable{
+        private int time,q_number;
+        private String msg,Bjn;
+        public Thread_yasuo_q_and_message(int time,String msg,String Bjn,int q_number){
+            this.time = time;
+            this.q_number = q_number;
+            this.msg = msg;
+            this.Bjn = Bjn;
+        }
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(time);
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
             }
-        }).start();
+            msgList.add(new Msg(msg, Msg.TYPE_B));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    yasuo_life.setText(String.valueOf(ya_suo.getLife()));
+                    yong_en_life.setText(String.valueOf(yong_en.getLife()));
+                    if(q_number!=0 && Bjn.equals("斩钢闪")) {
+                        in_show_number(Bjn, q_number, Msg.TYPE_B);
+                    }
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.scrollToPosition(msgList.size() - 1);
+                }
+            });
+        }
     }
 
     //显示永恩Q的层数并组织语言的方法
     private void yongen_q_and_message(int time,String Ajn,int q_number_x){
-        String c = A_message;
-        int n = q_number_x;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(time);
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
-                msgList.add(new Msg(c, Msg.TYPE_A));
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        yasuo_life.setText(String.valueOf(ya_suo.getLife()));
-                        yong_en_life.setText(String.valueOf(yong_en.getLife()));
-                        if(n!=0 && Ajn.equals("错玉切")) {
-                            in_show_number(A_jn, A_q_number, Msg.TYPE_A);
-                        }
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.scrollToPosition(msgList.size() - 1);
-                    }
-                });
-            }
-        }).start();
+        executorService.execute(new Thread_yong_en_q_and_message(time,A_message,Ajn,q_number_x));
     }
+
+    //永恩展示消息或者q层数的线程
+    class Thread_yong_en_q_and_message implements Runnable {
+        private int time;
+        private String msg,A_jn;
+        private int yong_en_q_number;
+        public Thread_yong_en_q_and_message(int time,String msg,String A_jn,int yong_en_q_number){
+            this.time = time;
+            this.msg = msg;
+            this.A_jn = A_jn;
+            this.yong_en_q_number = yong_en_q_number;
+        }
+        @Override
+        public void run() {
+                    try {
+                        Thread.sleep(time);
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
+                    }
+                    msgList.add(new Msg(msg, Msg.TYPE_A));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            yasuo_life.setText(String.valueOf(ya_suo.getLife()));
+                            yong_en_life.setText(String.valueOf(yong_en.getLife()));
+                            if(yong_en_q_number!=0 && A_jn.equals("错玉切")) {
+                                in_show_number(A_jn, A_q_number, Msg.TYPE_A);
+                            }
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.scrollToPosition(msgList.size() - 1);
+                        }
+                    });
+                }
+        }
 
     //属性更新操作
     private void update(){
@@ -475,8 +629,10 @@ public class GameInActivity extends AppCompatActivity {
     private void Q_solve(){
         initStrike();
         imageButtonClick.StopClick(q);
+        kill_dogface_btn.setEnabled(false);
         B_jn = "斩钢闪";
         q_number++;
+
         if(q_number == 3){
             q_number = 0;
             B_ji_fei = true;
@@ -492,8 +648,8 @@ public class GameInActivity extends AppCompatActivity {
         if(A_ji_fei || B_ji_fei){
             //永恩触发击飞时的方案
             if(A_ji_fei && !happy){
-                /*这里降低难度,因为封尘绝念斩释放一次即可击飞,不允许重复释放,防止出现一直击飞的不友好体验
-                  且击飞后的操作不增加回合数，史诗级降低难度*/
+                /*降低难度,因为封尘绝念斩释放一次即可击飞,不允许重复释放,防止出现一直击飞的不友好体验
+                  且击飞后的操作不增加回合数*/
                 personal_yongen_jifei(A_hurt_all);
             }
             if(B_ji_fei){
@@ -502,28 +658,31 @@ public class GameInActivity extends AppCompatActivity {
                 B_ji_fei=false;
 
                 B_hurtToA = yasuo_Q_theoretical_hurt();
-                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal());
+                A_life-=B_hurtToA;
+
+                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
 
                 total_hurt_B+=B_hurtToA;
                 total_B_hui_fu+=B_xi_xue;
 
-                A_life-=B_hurtToA;
                 B_life+=B_xi_xue;
 
                 update();
 
                 B_message = text(ya_suo,B_jn,yong_en,B_xi_xue,B_hurtToA,true,strike_yasuo);
-
-                yasuo_q_and_message(300,q_number);
+                yasuo_q_and_message(300,B_jn,q_number);
             }
         }else{
             if(!happy){
                 //分别计算伤害
                 A_hurtToB = A_hurt_all;
-                A_xi_xue = life_steal(A_hurtToB,yong_en.getSteal());
-
                 B_hurtToA = yasuo_Q_theoretical_hurt();
-                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal());
+                A_life-=B_hurtToA;
+                B_life-=A_hurtToB;
+
+
+                A_xi_xue = life_steal(A_hurtToB,yong_en.getSteal(),A_life,yong_en.getLife());
+                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
 
                 total_hurt_A+=A_hurtToB;
                 total_A_hui_fu+=A_xi_xue;
@@ -532,23 +691,20 @@ public class GameInActivity extends AppCompatActivity {
                 total_B_hui_fu+=B_xi_xue;
 
                 A_life+=A_xi_xue;
-                A_life-=B_hurtToA;
-
                 B_life+=B_xi_xue;
-                B_life-=A_hurtToB;
+
 
                 update();
 
                 A_message = text(yong_en,A_jn,ya_suo,A_xi_xue,A_hurtToB,false,strike_yong_en);
                 B_message = text(ya_suo,B_jn,yong_en,B_xi_xue,B_hurtToA,false,strike_yasuo);
 
-                yongen_q_and_message(100,A_jn,A_q_number);
-
+                yongen_q_and_message(200,A_jn,A_q_number);
             }else{
                 //单独计算亚索伤害
                 happy = false;
                 B_hurtToA = yasuo_Q_theoretical_hurt();
-                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal());
+                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
 
                 total_hurt_B+=B_hurtToA;
                 total_B_hui_fu+=B_xi_xue;
@@ -560,7 +716,7 @@ public class GameInActivity extends AppCompatActivity {
 
                 B_message = text(ya_suo,B_jn,yong_en,B_xi_xue,B_hurtToA,false,strike_yasuo);
             }
-            yasuo_q_and_message(300,q_number);
+            yasuo_q_and_message(300,B_jn,q_number);
         }
         if(q_number!=0){
             q_number_image.setText(String.valueOf(q_number));
@@ -569,27 +725,10 @@ public class GameInActivity extends AppCompatActivity {
             q_number_image.setVisibility(View.GONE);
         }
         if(!happy) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(500);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dogface_attack();
-                                yasuo_life.setText(String.valueOf(ya_suo.getLife()));
-                                yong_en_life.setText(String.valueOf(yong_en.getLife()));
-                            }
-                        });
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
-                }
-            }).start();
+            executorService.execute(new dogface_attack_show(600));
         }
         update();
-        imageButtonClick.startClick();
+        executorService.execute(new show_buttons(900));
         endGame();
     }
 
@@ -597,6 +736,7 @@ public class GameInActivity extends AppCompatActivity {
     private void W_solve(){
         initStrike();
         imageButtonClick.StopClick(w);
+        kill_dogface_btn.setEnabled(false);
         int a = 0;
         if(!happy){
             number_hui_he++;
@@ -618,24 +758,7 @@ public class GameInActivity extends AppCompatActivity {
             //亚索操作
             yasuo_use_W(400);
             if(!happy) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(500);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dogface_attack();
-                                    yasuo_life.setText(String.valueOf(ya_suo.getLife()));
-                                    yong_en_life.setText(String.valueOf(yong_en.getLife()));
-                                }
-                            });
-                        } catch (InterruptedException interruptedException) {
-                            interruptedException.printStackTrace();
-                        }
-                    }
-                }).start();
+                executorService.execute(new dogface_attack_show(600));
             }
         }else{
             yasuo_use_W(400);
@@ -645,7 +768,7 @@ public class GameInActivity extends AppCompatActivity {
             w_number_image.setVisibility(View.VISIBLE);
             w_number_image.setText(String.valueOf(w_number));
         }
-        imageButtonClick.startClick();
+        executorService.execute(new show_buttons(900));
         endGame();
     }
 
@@ -653,6 +776,7 @@ public class GameInActivity extends AppCompatActivity {
     private void E_solve(){
         initStrike();
         imageButtonClick.StopClick(e);
+        kill_dogface_btn.setEnabled(false);
         int a = 0;
         B_jn = "踏前斩";
         if(!happy){
@@ -667,39 +791,19 @@ public class GameInActivity extends AppCompatActivity {
             }else{
                 personal_yongen(a);
             }
-
-            //亚索操作
-            personal_yasuo(yasuo_E_theoretical_hurt());
-        }else{
-            personal_yasuo(yasuo_E_theoretical_hurt());
         }
+        //亚索操作
+        personal_yasuo(yasuo_E_theoretical_hurt());
 
         if(!happy) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(500);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dogface_attack();
-                                yasuo_life.setText(String.valueOf(ya_suo.getLife()));
-                                yong_en_life.setText(String.valueOf(yong_en.getLife()));
-                            }
-                        });
-                    } catch (InterruptedException interruptedException) {
-                        interruptedException.printStackTrace();
-                    }
-                }
-            }).start();
+            executorService.execute(new dogface_attack_show(600));
         }
         update();
         if(yasuo_have_W){
             w_number_image.setVisibility(View.VISIBLE);
             w_number_image.setText(String.valueOf(w_number));
         }
-        imageButtonClick.startClick();
+        executorService.execute(new show_buttons(900));
         endGame();
     }
 
@@ -712,38 +816,47 @@ public class GameInActivity extends AppCompatActivity {
             B_jn = "狂风绝息斩";
             happy = false;
             imageButtonClick.StopClick(r);
+            kill_dogface_btn.setEnabled(false);
             personal_yasuo(yasuo_R_theoretical_hurt());
             update();
             if(yasuo_have_W){
                 w_number_image.setVisibility(View.VISIBLE);
                 w_number_image.setText(String.valueOf(w_number));
             }
-            imageButtonClick.startClick();
+            executorService.execute(new show_buttons(900));
             endGame();
         }
     }
 
     //亚索使用W的展示信息
     private void yasuo_use_W(int time){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(time);
-                    msgList.add(new Msg("面对疾风吧！\n"+ya_suo.getName()+"使用了"+B_jn+"\n开始免疫远程攻击了",Msg.TYPE_B));
-                } catch (InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.scrollToPosition(msgList.size()-1);
-                    }
-                });
-            }
-        }).start();
+        executorService.execute(new yasuo_use_w_show(time));
     }
+
+    //亚索展示w的线程
+    class yasuo_use_w_show implements Runnable{
+        private int time;
+        public yasuo_use_w_show(int time){
+            this.time = time;
+        }
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(time);
+                msgList.add(new Msg("面对疾风吧！\n"+ya_suo.getName()+"使用了"+B_jn+"\n开始免疫远程攻击了",Msg.TYPE_B));
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.scrollToPosition(msgList.size()-1);
+                }
+            });
+        }
+    }
+
 
     //回合结束展示炮车攻击的方法
     private void dogface_attack(){
@@ -808,7 +921,7 @@ public class GameInActivity extends AppCompatActivity {
     //永恩不击飞的操作
     private void personal_yongen(int A_hurt_all){
         A_hurtToB = A_hurt_all;
-        A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal());
+        A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,yong_en.getLife());
 
         total_hurt_A += A_hurtToB;
         total_A_hui_fu += A_xi_xue;
@@ -818,14 +931,14 @@ public class GameInActivity extends AppCompatActivity {
 
         update();
 
-        A_message = text(yong_en,A_jn,ya_suo,A_xi_xue,A_hurtToB,A_ji_fei,strike_yong_en);
-        yongen_q_and_message(100,A_jn,A_q_number);
+        A_message = text(yong_en,A_jn,ya_suo,A_xi_xue,A_hurtToB,false,strike_yong_en);
+        yongen_q_and_message(200,A_jn,A_q_number);
     }
 
     //亚索不击飞的操作
     private void personal_yasuo(int B_hurt_A){
         B_hurtToA = B_hurt_A;
-        B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal());
+        B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
 
         A_life-=B_hurtToA;
         B_life+=B_xi_xue;
@@ -837,18 +950,17 @@ public class GameInActivity extends AppCompatActivity {
 
         B_message = text(ya_suo,B_jn,yong_en,B_xi_xue,B_hurtToA,false,strike_yasuo);
 
-        yasuo_q_and_message(400,q_number);
+        yasuo_q_and_message(400,B_jn,q_number);
     }
 
     //永恩击飞操作
     private void personal_yongen_jifei(int A_hurt_all){
         do {
             A_ji_fei = false;
-            Log.d("123", "personal_yongen_jifei: "+A_jn);
             if (A_jn.equals("错玉切")) {
                 //击飞操作
                 A_hurtToB = A_hurt_all;
-                A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal());
+                A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,yong_en.getLife());
 
                 total_hurt_A += A_hurtToB;
                 total_A_hui_fu += A_xi_xue;
@@ -859,13 +971,13 @@ public class GameInActivity extends AppCompatActivity {
                 update();
 
                 A_message = text(yong_en,A_jn,ya_suo,A_xi_xue,A_hurtToB,true,strike_yong_en);
-                yongen_q_and_message(100,A_jn,A_q_number);
+                yongen_q_and_message(200,A_jn,A_q_number);
 
                 strike_yong_en = false;
 
                 //击飞后的额外操作
                 int A_hurt_two = yong_en_all_hurt(4);
-                int A_xi_xue_two = life_steal(A_hurt_two, yong_en.getSteal());
+                int A_xi_xue_two = life_steal(A_hurt_two, yong_en.getSteal(),A_life,yong_en.getLife());
 
                 total_hurt_A += A_hurt_two;
                 total_A_hui_fu += A_xi_xue_two;
@@ -877,12 +989,12 @@ public class GameInActivity extends AppCompatActivity {
 
                 A_message = text(yong_en,A_jn,ya_suo,A_xi_xue,A_hurt_two,A_ji_fei,strike_yong_en);
 
-                yongen_q_and_message(200,A_jn,A_q_number);
+                yongen_q_and_message(300,A_jn,A_q_number);
 
             } else if (A_jn.equals("封尘绝念斩")) {
                 //击飞操作
                 A_hurtToB = A_hurt_all;
-                A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal());
+                A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,yong_en.getLife());
 
                 total_hurt_A += A_hurtToB;
                 total_A_hui_fu += A_xi_xue;
@@ -893,13 +1005,13 @@ public class GameInActivity extends AppCompatActivity {
                 update();
 
                 A_message = text(yong_en,A_jn,ya_suo,A_xi_xue,A_hurtToB,true,strike_yong_en);
-                yongen_q_and_message(100,A_jn,A_q_number);
+                yongen_q_and_message(200,A_jn,A_q_number);
 
                 strike_yong_en = false;
 
                 //击飞后的额外操作
                 int A_hurt_two = yong_en_all_hurt(3);
-                int A_xi_xue_two = life_steal(A_hurt_two, yong_en.getSteal());
+                int A_xi_xue_two = life_steal(A_hurt_two, yong_en.getSteal(),A_life,yong_en.getLife());
 
                 total_hurt_A += A_hurt_two;
                 total_A_hui_fu += A_xi_xue_two;
@@ -909,7 +1021,7 @@ public class GameInActivity extends AppCompatActivity {
 
                 update();
                 A_message = text(yong_en,A_jn,ya_suo,A_xi_xue,A_hurt_two,A_ji_fei,strike_yong_en);
-                yongen_q_and_message(200,A_jn,q_number);
+                yongen_q_and_message(300,A_jn,q_number);
             }
         }while (A_ji_fei && ya_suo.getLife()!=0 && yong_en.getLife()!=0);
     }
@@ -954,8 +1066,12 @@ public class GameInActivity extends AppCompatActivity {
     }
 
     //计算生命偷取
-    private int life_steal(int real_hurt,int steal){
-        return (int) (real_hurt*steal*0.01);
+    private int life_steal(int real_hurt,int steal,int now_life,int real_life){
+        if((now_life + (int) (real_hurt*steal*0.01)) > real_life){
+            return real_life - now_life;
+        }else {
+            return (int) (real_hurt * steal * 0.01);
+        }
     }
 
     //亚索Q总伤害
@@ -1000,43 +1116,57 @@ public class GameInActivity extends AppCompatActivity {
         }
     }
 
-    //向fragment_game_situation1传递战况数据
+    //通过广播向fragment_game_situation1传递战况数据
     private void transferDataToFragment_situation() {
+        Intent intent = new Intent("com.example.wintertext.GameInActivity.finish");
 
-        Intent intent = new Intent(GameInActivity.this,MainActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("final_A_life",yong_en.getLife());
-        bundle.putInt("final_B_life",ya_suo.getLife());
-        bundle.putInt("all_dogface_hurt_to_A",total_dogface_ToA);
-        bundle.putInt("all_dogface_hurt_to_B",total_dogface_ToB);
-        bundle.putInt("all_A_hurt_to_B",total_hurt_A);
-        bundle.putInt("all_B_hurt_to_A",total_hurt_B);
-        bundle.putInt("all_A_hui_fu",total_A_hui_fu);
-        bundle.putInt("all_B_hui_fu",total_B_hui_fu);
-        bundle.putString("winner",winner);
+        //计算获取的经验值
+        if(winner.equals("疾风剑豪")){
+            exc = 20;
+            if(SI){
+                exc *= 2;
+            }else if(SHENG){
+                exc /= 2;
+            }else if(BING){
+                exc *= 1.5;
+            }
+        }else if(winner.equals("封魔剑魂")){
+            exc = 5;
+        }else{
+            exc = 10;
+        }
 
-        intent.putExtras(bundle);
-        setResult(1,intent);
+        //计算获取的金币
+        get_money = kill_dogface * 5;
+        if(winner.equals("疾风剑豪")){
+            get_money+=300;
+        }
+
+        intent.putExtra("winner",winner);
+        intent.putExtra("final_A_life",yong_en.getLife());
+        intent.putExtra("final_B_life",ya_suo.getLife());
+        intent.putExtra("all_dogface_hurt_to_A",total_dogface_ToA);
+        intent.putExtra("all_dogface_hurt_to_B",total_dogface_ToB);
+        intent.putExtra("all_A_hurt_to_B",total_hurt_A);
+        intent.putExtra("all_B_hurt_to_A",total_hurt_B);
+        intent.putExtra("all_A_hui_fu",total_A_hui_fu);
+        intent.putExtra("all_B_hui_fu",total_B_hui_fu);
+        intent.putExtra("get_exc",exc);
+        intent.putExtra("kill_dogface",kill_dogface);
+        intent.putExtra("get_money",get_money);
+
+        sendBroadcast(intent);
     }
 
-    //传递获取的经验值给fragment_setting
-    private void transferDataToFragment_setting() {
-        FragmentSetting fragmentSetting = new FragmentSetting();
-        Bundle bundle = new Bundle();
-        bundle.putInt("get_exc",exc);
-        fragmentSetting.setArguments(bundle);
-    }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         if(end){
             Toast.makeText(GameInActivity.this,"GameOver",Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(GameInActivity.this, "你居然中途退出！", Toast.LENGTH_SHORT).show();
         }
-        finish();
     }
 
     @Override

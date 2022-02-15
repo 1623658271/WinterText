@@ -11,6 +11,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wintertext.R;
 
+/**
+ * description ： TODO:消息界面碎片
+ * author : lfy
+ * email : 1623658271@qq.com
+ * date : 2022/2/1 18:26
+ */
 public class FragmentMessage extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

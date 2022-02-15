@@ -7,6 +7,13 @@ import android.widget.ImageButton;
 
 import java.util.List;
 
+/**
+ * description ： TODO:游戏内四个技能的一个操作类
+ * author : lfy
+ * email : 1623658271@qq.com
+ * date : 2022/2/2 15:30
+ */
+//操作技能按键的工具类
 public class ImageButtonClick {
     List<ImageButton> imageButtons;
     public ImageButtonClick(List<ImageButton> imageButtons){

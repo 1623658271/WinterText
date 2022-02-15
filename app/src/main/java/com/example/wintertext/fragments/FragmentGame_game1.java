@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import com.example.wintertext.R;
 import com.example.wintertext.activities.GameInActivity;
 import com.example.wintertext.beans.GamePlayer;
+import com.example.wintertext.beans.Msg;
 import com.example.wintertext.utilities.ButtonChange;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
@@ -31,6 +32,12 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * description ： TODO:游戏界面的一个碎片，用于启动游戏
+ * author : lfy
+ * email : 1623658271@qq.com
+ * date : 2022/2/1 17:30
+ */
 //对游戏1碎片的相关操作
 public class FragmentGame_game1 extends Fragment implements View.OnClickListener{
     private MaterialButton button1, button2, button3, button4, button_start, button_ok,button_cancel;
@@ -38,6 +45,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
     private List<MaterialButton> buttons;
     private ButtonChange buttonChanges;
     private String winner2;
+    private String TAG = "123";
 
     @Nullable
     @Override
@@ -107,7 +115,6 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
                 buttonChanges.startSelect();
                 break;
             case R.id.button_ok:
-                Log.d("123", "onActivityResult: "+"winner"+winner2);
                 boolean stop = false;
                     //是否选中一门
                     for (MaterialButton materialButton : buttons) {
@@ -149,29 +156,8 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(resultCode == 1 && requestCode == 1){
-            if(data!=null) {
-                Bundle bundle = data.getExtras();
-                int final_A_life = bundle.getInt("final_A_life");
-                int final_B_life = bundle.getInt("final_B_life");
-                int all_dogface_hurt_to_A = bundle.getInt("all_dogface_hurt_to_A");
-                int all_dogface_hurt_to_B = bundle.getInt("all_dogface_hurt_to_B");
-                int all_A_hurt_to_B = bundle.getInt("all_A_hurt_to_B");
-                int ll_B_hurt_to_A = bundle.getInt("all_B_hurt_to_A");
-                int all_A_hui_fu = bundle.getInt("all_A_hui_fu");
-                int all_B_hui_fu = bundle.getInt("all_B_hui_fu");
-                String winner = bundle.getString("winner");
-                winner2 = winner;
-            }
-        }
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        Log.d("123", "onActivityResult: "+"winner"+winner2);
         buttonChanges.cancelAll();
         buttonChanges.stopSelect();
         button_start.setVisibility(View.VISIBLE);

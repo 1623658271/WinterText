@@ -6,6 +6,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+/**
+ * description ： TODO:网络请求工具类
+ * author : lfy
+ * email : 1623658271@qq.com
+ * date : 2022/2/9 16:47
+ */
 //发送网络请求的工具类
 public class HttpUtil {
     public static String sendHttpRequest(String address){

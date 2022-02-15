@@ -6,7 +6,14 @@ import com.example.wintertext.R;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
-//一个操纵4个MaterialButton的操作类
+
+/**
+ * description ： TODO:游戏界面四个按钮的一个操作类
+ * author : lfy
+ * email : 1623658271@qq.com
+ * date : 2022/2/2 9:29
+ */
+//一个操纵4个MaterialButton的工具类
 public class ButtonChange {
     private List<MaterialButton> buttons;
     public ButtonChange(List<MaterialButton> buttons){

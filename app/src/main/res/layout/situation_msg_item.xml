@@ -4,6 +4,15 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/game_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/yellow"
+        android:textSize="40sp"
+        android:layout_gravity="center"/>
+
     <LinearLayout
         android:id="@+id/msg_A_ll"
         android:layout_width="wrap_content"
@@ -17,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
     </LinearLayout>
 
     <LinearLayout
@@ -33,6 +42,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/result"
+        android:background="@drawable/cor_ll_blue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
 </LinearLayout>

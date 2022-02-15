@@ -1,5 +1,11 @@
 package com.example.wintertext.beans;
 
+/**
+ * description ： TODO:小兵属性类
+ * author : lfy
+ * email : 1623658271@qq.com
+ * date : 2022/2/4 15:20
+ */
 public class Dogface{
     private String name;
     private int attack;

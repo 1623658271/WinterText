@@ -7,6 +7,36 @@
     android:background="@drawable/gamein"
     tools:context=".activities.GameInActivity">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.753"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/r"
+        app:layout_constraintVertical_bias="0.363">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/dogface" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/get_dogface_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="补兵"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/blue"
+            app:cornerRadius="20sp"
+            app:strokeColor="@color/yellow"
+            app:strokeWidth="3dp" />
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_rival_setting"
         android:layout_width="wrap_content"
@@ -328,7 +358,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_game_in_situation"
-        app:layout_constraintVertical_bias="0.109" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:id="@+id/ll_huihe"
@@ -365,7 +395,7 @@
     <LinearLayout
         android:id="@+id/ll_game_in_situation"
         android:layout_width="wrap_content"
-        android:layout_height="260dp"
+        android:layout_height="270dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"

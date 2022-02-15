@@ -36,6 +36,8 @@
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout-v26/fragment_store.xml" value="0.14673913043478262" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/activity_game_in.xml" value="0.25" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/activity_main.xml" value="0.165" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/award_dialog.xml" value="0.25" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/bottom_dialog.xml" value="0.22083333333333333" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/drawer_layout.xml" value="0.10739614994934144" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_game.xml" value="0.165" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_game_fragment_game1.xml" value="0.25" />
@@ -44,8 +46,10 @@
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_setting.xml" value="0.25" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/fragment_store.xml" value="0.25" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/gamein_situation_item.xml" value="0.165" />
-        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/navigation_layout.xml" value="0.165" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/navigation_layout.xml" value="0.375" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/rule_dialog.xml" value="0.25" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/situation_msg_item.xml" value="0.11322463768115942" />
+        <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/store_rv_item.xml" value="0.335" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/layout/title_layout.xml" value="0.165" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/menu/nv_menu.xml" value="0.165" />
         <entry key="..\:/Android_Second/Applications/WinterText/app/src/main/res/menu/toolbar_menu.xml" value="0.335" />
