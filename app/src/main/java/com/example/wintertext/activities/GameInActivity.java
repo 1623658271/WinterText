@@ -93,6 +93,7 @@ public class GameInActivity extends AppCompatActivity {
     private MediaPlayer mq1,mq2,mq3,mw,me,mr1,mr2,ntm;
     private AlertDialog.Builder dialog;
     private int real_a_life,real_b_life;
+    private boolean haveDialog = false;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -476,7 +477,8 @@ public class GameInActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(ya_suo.getLife()==0 && yong_en.getLife()!=0){
+                    if(ya_suo.getLife()==0 && yong_en.getLife()!=0 && !haveDialog){
+                        haveDialog = true;
                         end = true;
                         winner = "封魔剑魂";
                         imageButtonClick.endClick();
@@ -496,8 +498,9 @@ public class GameInActivity extends AppCompatActivity {
                                         finish();
                                     }
                                 }).show();
-                    }else if(ya_suo.getLife()!=0 && yong_en.getLife()==0){
+                    }else if(ya_suo.getLife()!=0 && yong_en.getLife()==0 && !haveDialog){
                         end = true;
+                        haveDialog = true;
                         winner = "疾风剑豪";
                         imageButtonClick.endClick();
                         kill_dogface_btn.setEnabled(false);
@@ -516,8 +519,9 @@ public class GameInActivity extends AppCompatActivity {
                                         finish();
                                     }
                                 }).show();
-                    }else if(ya_suo.getLife()==0 && yong_en.getLife()==0){
+                    }else if(ya_suo.getLife()==0 && yong_en.getLife()==0 && !haveDialog){
                         end = true;
+                        haveDialog = true;
                         winner = "平局";
                         imageButtonClick.endClick();
                         kill_dogface_btn.setEnabled(false);
@@ -536,6 +540,8 @@ public class GameInActivity extends AppCompatActivity {
                                         finish();
                                     }
                                 }).show();
+                    }else{
+                        haveDialog = false;
                     }
                 }
             });
