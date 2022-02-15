@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:text="1.这是一个与人机斗智斗勇拼运气的回合制游戏\n2.一开始会有四门难度进行选择：\n生:简单难度,己方获得1.5倍的生命和防御\n兵:普通难度,炮车会具有五倍的攻击力\n死:困难难度,敌方全属性提升三倍\n景:正常难度,双方都十分正常\n3.可通过对局获得经验以升级和金币以购买装备"
+        android:text="1.这是一个与人机斗智斗勇拼运气的回合制游戏\n2.一开始会有四门难度进行选择：\n生:简单难度,己方获得1.5倍的生命和防御\n兵:普通难度,炮车会具有五倍的攻击力\n死:困难难度,敌方全属性提升两倍\n景:正常难度,双方都十分正常\n3.可通过对局获得经验以升级和金币以购买装备"
         android:textColor="@color/black"/>
     <TextView
         android:layout_width="wrap_content"
