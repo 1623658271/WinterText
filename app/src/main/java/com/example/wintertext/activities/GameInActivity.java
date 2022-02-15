@@ -89,9 +89,8 @@ public class GameInActivity extends AppCompatActivity {
     private boolean SI = false,SHENG = false,BING = false,JING = false;
     private String winner = null;
     private String TAG = "123";
-    private SoundPool soundPool;
     private ExecutorService executorService = Executors.newCachedThreadPool();
-    private AudioAttributes attr;
+    private MediaPlayer mq1,mq2,mq3,mw,me,mr1,mr2,ntm;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -195,19 +194,18 @@ public class GameInActivity extends AppCompatActivity {
         w = findViewById(R.id.w);
         e = findViewById(R.id.e);
         r = findViewById(R.id.r);
+        mr1 = MediaPlayer.create(this,R.raw.r1);
+        mr2 = MediaPlayer.create(this,R.raw.r2);
+        mq1 = MediaPlayer.create(this,R.raw.q1);
+        mq2 = MediaPlayer.create(this,R.raw.q2);
+        mq3 = MediaPlayer.create(this,R.raw.q3);
+        mw = MediaPlayer.create(this,R.raw.w);
+        me = MediaPlayer.create(this,R.raw.e);
         buttons = new ArrayList<>();
         buttons.add(q);
         buttons.add(w);
         buttons.add(e);
         buttons.add(r);
-        attr = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)//设置音效使用场景
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .build();
-        soundPool = new SoundPool.Builder()
-                .setAudioAttributes(attr)//设置音效池属性
-                .setMaxStreams(4)//设置最多容纳4个音频流
-                .build();
         imageButtonClick = new ImageButtonClick(buttons);
     }
 
@@ -248,9 +246,6 @@ public class GameInActivity extends AppCompatActivity {
             if(BING){
                 dogface.setAttack(dogface.getAttack()*5);
             }
-            if(JING){
-
-            }
             if(yong_en.getStrike()>=100){
                 yong_en.setStrike(100);
             }
@@ -266,6 +261,7 @@ public class GameInActivity extends AppCompatActivity {
             kill_dogface_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     kill_solve();
                 }
             });
@@ -273,18 +269,27 @@ public class GameInActivity extends AppCompatActivity {
             q.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if(q_number==0){
+                        mq1.start();
+                    }else if(q_number==1){
+                        mq2.start();
+                    }else if(q_number==2){
+                        mq3.start();
+                    }
                     Q_solve();
                 }
             });
             w.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mw.start();
                     W_solve();
                 }
             });
             e.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    me.start();
                     E_solve();
                 }
             });
@@ -347,7 +352,7 @@ public class GameInActivity extends AppCompatActivity {
             w_number_image.setVisibility(View.VISIBLE);
             w_number_image.setText(String.valueOf(w_number));
         }
-        executorService.execute(new show_buttons(900));
+        executorService.execute(new show_buttons(1000));
         endGame();
     }
 
@@ -439,7 +444,7 @@ public class GameInActivity extends AppCompatActivity {
 
     //判断结束游戏的方法
     private void endGame() {
-        executorService.execute(new game_end_show(1000));
+        executorService.execute(new game_end_show(1200));
     }
 
     //判断游戏结束的线程
@@ -691,6 +696,20 @@ public class GameInActivity extends AppCompatActivity {
 
                 B_message = text(ya_suo,B_jn,yong_en,B_xi_xue,B_hurtToA,true,strike_yasuo);
                 yasuo_q_and_message(300,B_jn,q_number);
+            }else{
+                B_hurtToA = yasuo_Q_theoretical_hurt();
+                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
+
+                total_hurt_B+=B_hurtToA;
+                total_B_hui_fu+=B_xi_xue;
+
+                A_life-=B_hurtToA;
+                B_life+=B_xi_xue;
+
+                update();
+
+                B_message = text(ya_suo,B_jn,yong_en,B_xi_xue,B_hurtToA,false,strike_yasuo);
+                yasuo_q_and_message(400,B_jn,q_number);
             }
         }else{
             if(!happy){
@@ -748,7 +767,7 @@ public class GameInActivity extends AppCompatActivity {
             executorService.execute(new dogface_attack_show(600));
         }
         update();
-        executorService.execute(new show_buttons(900));
+        executorService.execute(new show_buttons(1000));
         endGame();
     }
 
@@ -788,7 +807,7 @@ public class GameInActivity extends AppCompatActivity {
             w_number_image.setVisibility(View.VISIBLE);
             w_number_image.setText(String.valueOf(w_number));
         }
-        executorService.execute(new show_buttons(900));
+        executorService.execute(new show_buttons(1000));
         endGame();
     }
 
@@ -823,7 +842,7 @@ public class GameInActivity extends AppCompatActivity {
             w_number_image.setVisibility(View.VISIBLE);
             w_number_image.setText(String.valueOf(w_number));
         }
-        executorService.execute(new show_buttons(900));
+        executorService.execute(new show_buttons(1000));
         endGame();
     }
 
@@ -832,6 +851,16 @@ public class GameInActivity extends AppCompatActivity {
         if(!happy){
             Toast.makeText(GameInActivity.this,"无可选击飞目标！",Toast.LENGTH_SHORT).show();
         }else{
+            int k = random.nextInt(2)+1;
+            switch (k){
+                case 1:
+                    mr1.start();
+                    break;
+                case 2:
+                    mr2.start();
+                    break;
+                default:break;
+            }
             initStrike();
             B_jn = "狂风绝息斩";
             happy = false;
@@ -843,7 +872,7 @@ public class GameInActivity extends AppCompatActivity {
                 w_number_image.setVisibility(View.VISIBLE);
                 w_number_image.setText(String.valueOf(w_number));
             }
-            executorService.execute(new show_buttons(900));
+            executorService.execute(new show_buttons(1000));
             endGame();
         }
     }
@@ -1191,6 +1220,13 @@ public class GameInActivity extends AppCompatActivity {
 
     @Override
     public void finish() {
+        mq1.release();
+        mq2.release();
+        mq3.release();
+        mw.release();
+        me.release();
+        mr1.release();
+        mr2.release();
         if(end){
             transferDataToFragment_situation();
         }

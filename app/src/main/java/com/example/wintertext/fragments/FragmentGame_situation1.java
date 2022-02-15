@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -61,6 +62,7 @@ public class FragmentGame_situation1 extends Fragment {
     private int kill_dogface = 0;
     private SharedGamePlayerData sharedGamePlayerData;
     private GamePlayer gamePlayer;
+    private MediaPlayer win,dead,pin;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -81,6 +83,9 @@ public class FragmentGame_situation1 extends Fragment {
         adapter = new MsgRecyclerViewAdapter(msgList);
         recyclerView = view.findViewById(R.id.game_situation_rv);
         gamePlayer = new GamePlayer();
+        win = MediaPlayer.create(getContext(),R.raw.win);
+        dead = MediaPlayer.create(getContext(),R.raw.dead);
+        pin = MediaPlayer.create(getContext(),R.raw.pin);
         sharedGamePlayerData = new ViewModelProvider(requireActivity(),new ViewModelProvider.NewInstanceFactory()).get(SharedGamePlayerData.class);
     }
 
@@ -132,10 +137,13 @@ public class FragmentGame_situation1 extends Fragment {
                 Log.d(TAG, "onReceive: "+winner+get_exc);
 
                 if(winner.equals("疾风剑豪")) {
+                    win.start();
                     result = "胜利！\n"+"获得"+get_exc+"点经验值"+"及"+get_money+"金币";
                 }else if(winner.equals("封魔剑魂")){
+                    dead.start();
                     result = "失败！\n"+"获得"+get_exc+"点经验值"+"及"+get_money+"金币";
                 }else{
+                    pin.start();
                     result = "平局！\n"+"获得"+get_exc+"点经验值"+"及"+get_money+"金币";
                 }
 

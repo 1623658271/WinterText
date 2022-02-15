@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
     private List<MaterialButton> buttons;
     private ButtonChange buttonChanges;
     private String winner2;
+    private MediaPlayer wind;
     private String TAG = "123";
 
     @Nullable
@@ -76,7 +78,6 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
         button_start.setOnClickListener(this);
         button_ok.setOnClickListener(this);
         button_cancel.setOnClickListener(this);
-        //
     }
 
     private void initView() {
@@ -93,6 +94,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
         button_ok = view.findViewById(R.id.button_ok);
         button_cancel = view.findViewById(R.id.button_cancel);
         buttonChanges = new ButtonChange(buttons);
+        wind = MediaPlayer.create(getContext(),R.raw.wind);
     }
 
     @Override
@@ -130,6 +132,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
                         button_ok.setVisibility(View.GONE);
                         button_cancel.setVisibility(View.GONE);
                         button_start.setVisibility(View.VISIBLE);
+                        wind.start();
                         enterGameInActivity();
                     }
                 break;

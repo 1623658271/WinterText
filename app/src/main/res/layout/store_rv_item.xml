@@ -20,15 +20,4 @@
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_gravity="center" />
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_sell"
-        android:backgroundTint="@color/red"
-        app:cornerRadius="50dp"
-        android:text="@string/btn_sell"
-        android:visibility="gone"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 </LinearLayout>

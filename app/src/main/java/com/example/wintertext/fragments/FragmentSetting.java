@@ -158,8 +158,6 @@ public class FragmentSetting extends Fragment {
         pause = getContext().getResources().getDrawable(R.drawable.ic_music_pause);
         mediaPlayer = MediaPlayer.create(getContext(),R.raw.yasuobck);
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();
-        music_start.setBackground(pause);
 
         myDatabaseHelper = new MyDatabaseHelper(getContext(),"Game.db",null,1);
         db = myDatabaseHelper.getWritableDatabase();

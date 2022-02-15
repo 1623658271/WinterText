@@ -244,9 +244,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     case R.id.nv_check_rule:
                         dialog.show();
                         break;
-                    case R.id.nv_watch_weather:
-                        Toast.makeText(MainActivity.this,"出了点问题,暂时没实现",Toast.LENGTH_SHORT).show();;
-                        break;
                     case R.id.nv_save_data:
                         Toast.makeText(MainActivity.this,"这玩意自动存档",Toast.LENGTH_SHORT).show();
                         break;
