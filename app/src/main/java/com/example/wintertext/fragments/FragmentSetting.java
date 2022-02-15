@@ -97,7 +97,7 @@ public class FragmentSetting extends Fragment {
         i_life += 50;
         i_attack += 10;
         i_defense += 10;
-        i_max_exc+=25;
+        i_max_exc += 10;
         grade.setText(String.valueOf(i_grade));
         exc_progressbar.setProgress(i_exc);
         exc_progressbar.setMax(i_max_exc);
