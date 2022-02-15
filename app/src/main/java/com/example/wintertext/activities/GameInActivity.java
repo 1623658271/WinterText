@@ -159,6 +159,7 @@ public class GameInActivity extends AppCompatActivity {
         yasuo_life.setText(String.valueOf(ya_suo.getLife()));
     }
 
+    //初始化成员
     private void initView() {
         recyclerView = findViewById(R.id.rv_game_in_situation);
         msgList = new ArrayList<>();
@@ -209,26 +210,31 @@ public class GameInActivity extends AppCompatActivity {
         imageButtonClick = new ImageButtonClick(buttons);
     }
 
+    //以死相进
     private void comeBySI() {
         SI = true;
         gamePlay(true,false,false,false);
     }
 
+    //以生向进
     private void comeBySHENG() {
         SHENG = true;
         gamePlay(false,true,false,false);
     }
 
+    //以兵相进
     private void comeByBING() {
         BING = true;
         gamePlay(false,false,false,true);
     }
 
+    //以景相进
     private void comeByJING() {
         JING = true;
         gamePlay(false, false,true,false);
     }
 
+    //游戏
     public  void gamePlay(boolean SI,boolean SHENG,boolean JING,boolean BING){
             if(SI){
                 yong_en.setAttack(yong_en.getAttack()*4);
@@ -322,6 +328,7 @@ public class GameInActivity extends AppCompatActivity {
 
     }
 
+    //补兵的方法
     private void kill_solve() {
         initStrike();
         imageButtonClick.StopClick(null);
@@ -1208,6 +1215,7 @@ public class GameInActivity extends AppCompatActivity {
     }
 
 
+    //重写返回键方法
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -1218,6 +1226,7 @@ public class GameInActivity extends AppCompatActivity {
         }
     }
 
+    //重写finish()方法
     @Override
     public void finish() {
         mq1.release();

@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         });
     }
 
-    //加载控件的方法
+    //加载成员的方法
     private void initView() {
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         instance = Calendar.getInstance();
@@ -273,6 +273,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
 
+    //新建广播接收器
     class NotificationBroadCast extends BroadcastReceiver{
 
         @Override
@@ -350,6 +351,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         saveInAlbum(bitmap);
     }
 
+    //截图
     private void saveInAlbum(Bitmap bitmap) {
         MediaStore.Images.Media.insertImage(getContentResolver(),bitmap,"恩索","一个截图");
         sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,Uri.fromFile(new File("/sdcard/Boohee/image.jpg"))));
@@ -508,12 +510,14 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
     }
 
+    //老版本
     private void handleImageBeforeKitKat(Intent data) {
         Uri uri = data.getData();
         String imagePath = getImagePath(uri,null);
         displayImage(imagePath);
     }
 
+    //新版本
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();
@@ -616,6 +620,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
     }
 
+    //重写返回键方法
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(MainActivity.this)
@@ -637,6 +642,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 .show();
     }
 
+    //领取救济金按键的监听
     @Override
     public void OnBtnClick(AwardDialog dialog, View view) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -658,6 +664,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
     }
 
+    //授权返回
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

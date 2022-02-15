@@ -80,6 +80,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
         button_cancel.setOnClickListener(this);
     }
 
+    //初始化成员
     private void initView() {
         button1 = view.findViewById(R.id.location1);
         button2 = view.findViewById(R.id.location2);
@@ -146,6 +147,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
         }
     }
 
+    //进入GameInActivity
     private void enterGameInActivity() {
         int i = 0;
         for(MaterialButton materialButton:buttons){
@@ -158,6 +160,7 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
         startActivityForResult(intent,1);
     }
 
+    //重写onResume方法
     @Override
     public void onResume() {
         super.onResume();

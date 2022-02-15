@@ -72,11 +72,13 @@ public class FragmentGame_situation1 extends Fragment {
         initData();
     }
 
+    //设置adapter和布局模式
     private void initData() {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
+    //初始化成员
     private void initView() {
         msgList = new ArrayList<>();
         initView = view.findViewById(R.id.situation_initView);
@@ -96,6 +98,7 @@ public class FragmentGame_situation1 extends Fragment {
         return view;
     }
 
+    //组织语言的方法
     private String text(int final_a_life, int all_dogface_hurt_to_a, int all_a_hurt_to_b, int all_a_hui_fu, String name,String rival) {
         StringBuilder builder = new StringBuilder();
         builder.append(name+"剩余生命值:"+final_a_life+"\n");
@@ -105,6 +108,7 @@ public class FragmentGame_situation1 extends Fragment {
         return builder.toString();
     }
 
+    //初始化广播接收器
     private void initBroadcastListener() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.wintertext.GameInActivity.finish");
@@ -165,6 +169,7 @@ public class FragmentGame_situation1 extends Fragment {
         getActivity().registerReceiver(Receiver,intentFilter);
     }
 
+    //更新money
     private void updateMoney(){
         gamePlayer.setMoney(get_money);
         gamePlayer.setExc(get_exc);

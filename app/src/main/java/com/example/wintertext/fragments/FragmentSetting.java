@@ -66,6 +66,7 @@ public class FragmentSetting extends Fragment {
         initBroadCastReceiver();
     }
 
+    //广播接收器
     private void initBroadCastReceiver() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.wintertext.update_setting");
@@ -78,6 +79,7 @@ public class FragmentSetting extends Fragment {
         getActivity().registerReceiver(receiver,intentFilter);
     }
 
+    //更新经验值
     private void updateExc() {
         SharedGamePlayerData sharedGamePlayerData = new ViewModelProvider(requireActivity(),new ViewModelProvider.NewInstanceFactory()).get(SharedGamePlayerData.class);
         sharedGamePlayerData.getData().observe(this,item->{
@@ -141,6 +143,7 @@ public class FragmentSetting extends Fragment {
         initData();
     }
 
+    //初始化成员
     private void initView() {
         exc_progressbar = view.findViewById(R.id.exc_progressbar);
 
