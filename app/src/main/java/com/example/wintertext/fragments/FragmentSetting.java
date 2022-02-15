@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +47,9 @@ public class FragmentSetting extends Fragment {
     private View view;
     private MyDatabaseHelper myDatabaseHelper;
     private String TAG = "123";
+    private ImageView music_start;
+    private Drawable start,pause;
+    private MediaPlayer mediaPlayer;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,7 +103,7 @@ public class FragmentSetting extends Fragment {
         i_life += 50;
         i_attack += 10;
         i_defense += 10;
-        i_max_exc += 10;
+        i_max_exc += 5;
         grade.setText(String.valueOf(i_grade));
         exc_progressbar.setProgress(i_exc);
         exc_progressbar.setMax(i_max_exc);
@@ -147,6 +153,13 @@ public class FragmentSetting extends Fragment {
 
         i_exc = exc_progressbar.getProgress();
         i_max_exc = exc_progressbar.getMax();
+        music_start = view.findViewById(R.id.music_btn);
+        start = getContext().getResources().getDrawable(R.drawable.ic_music_start);
+        pause = getContext().getResources().getDrawable(R.drawable.ic_music_pause);
+        mediaPlayer = MediaPlayer.create(getContext(),R.raw.yasuobck);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+        music_start.setBackground(start);
 
         myDatabaseHelper = new MyDatabaseHelper(getContext(),"Game.db",null,1);
         db = myDatabaseHelper.getWritableDatabase();
@@ -196,5 +209,23 @@ public class FragmentSetting extends Fragment {
             dog_attack = cursor3.getInt(cursor3.getColumnIndex("attack"));
         }
         cursor.close();
+        music_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mediaPlayer.isPlaying()){
+                    mediaPlayer.pause();
+                    music_start.setBackground(start);
+                }else if(!mediaPlayer.isPlaying()){
+                    mediaPlayer.start();
+                    music_start.setBackground(pause);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mediaPlayer.stop();
     }
 }

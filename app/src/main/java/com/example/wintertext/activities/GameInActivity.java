@@ -10,6 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -85,7 +89,9 @@ public class GameInActivity extends AppCompatActivity {
     private boolean SI = false,SHENG = false,BING = false,JING = false;
     private String winner = null;
     private String TAG = "123";
+    private SoundPool soundPool;
     private ExecutorService executorService = Executors.newCachedThreadPool();
+    private AudioAttributes attr;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -194,6 +200,14 @@ public class GameInActivity extends AppCompatActivity {
         buttons.add(w);
         buttons.add(e);
         buttons.add(r);
+        attr = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)//设置音效使用场景
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .build();
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attr)//设置音效池属性
+                .setMaxStreams(4)//设置最多容纳4个音频流
+                .build();
         imageButtonClick = new ImageButtonClick(buttons);
     }
 
@@ -236,6 +250,12 @@ public class GameInActivity extends AppCompatActivity {
             }
             if(JING){
 
+            }
+            if(yong_en.getStrike()>=100){
+                yong_en.setStrike(100);
+            }
+            if(yong_en.getSteal()>=100){
+                yong_en.setSteal(100);
             }
 
             initSetting();
@@ -1122,7 +1142,7 @@ public class GameInActivity extends AppCompatActivity {
 
         //计算获取的经验值
         if(winner.equals("疾风剑豪")){
-            exc = 20;
+            exc = 20 + ya_suo.getGrade();
             if(SI){
                 exc *= 2;
             }else if(SHENG){
@@ -1131,9 +1151,9 @@ public class GameInActivity extends AppCompatActivity {
                 exc *= 1.5;
             }
         }else if(winner.equals("封魔剑魂")){
-            exc = 5;
+            exc = 5 + ya_suo.getGrade();
         }else{
-            exc = 10;
+            exc = 10 + ya_suo.getGrade();
         }
 
         //计算获取的金币

@@ -68,7 +68,7 @@ public class FragmentMessage extends Fragment {
             grade = cursor.getInt(cursor.getColumnIndex("grade"));
         }
         cursor.close();
-        if(grade >= 30){
+        if(grade >= 10){
             textView.setText("奖励观看我剪的视频【狗头】,需联网");
             videoView.setVisibility(View.VISIBLE);
             Uri uri = Uri.parse("https://v.kd1.qq.com/shg_321_1116_0b6bcyaayaaaluabbhwgjjqfyfqebrlqadka.f630.mp4?dis_k=73b93e29e391cbe1fdeb483281cadc93&dis_t=1644902635");
@@ -83,7 +83,7 @@ public class FragmentMessage extends Fragment {
                 }
             });
         }else{
-            textView.setText("请升到30级再来此页面查看");
+            textView.setText("请升到10级再来此页面查看");
             videoView.setVisibility(View.GONE);
         }
 

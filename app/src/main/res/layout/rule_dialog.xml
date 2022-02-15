@@ -42,7 +42,7 @@
         android:textStyle="bold"
         android:textSize="18sp"
         android:textColor="@color/blue"
-        android:text="1.玩家升级时属性会得到提升\n2.升级时,炮车和敌方英雄会同步升级\n3.还有亮出的狗牌等级也会提升\n4.猜猜对局计算伤害的公式\n5.升到30级有惊喜..."/>
+        android:text="1.玩家升级时属性会得到提升\n2.升级时,炮车和敌方英雄会同步升级\n3.还有亮出的狗牌等级也会提升\n4.猜猜对局计算伤害的公式\n5.升到10级有惊喜..."/>
     <com.google.android.material.button.MaterialButton
         android:id="@+id/rule_dialog_ok"
         android:layout_width="wrap_content"
