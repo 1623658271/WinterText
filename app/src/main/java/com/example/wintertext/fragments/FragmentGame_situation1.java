@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -146,24 +147,28 @@ public class FragmentGame_situation1 extends Fragment {
                 }else if(winner.equals("封魔剑魂")){
                     dead.start();
                     result = "失败！\n"+"获得"+get_exc+"点经验值"+"及"+get_money+"金币";
-                }else{
+                }else if(winner.equals("未知错误")){
+                    result = "未知错误";
+                    Toast.makeText(getContext(),"未知错误",Toast.LENGTH_SHORT).show();
+                }else {
                     pin.start();
                     result = "平局！\n"+"获得"+get_exc+"点经验值"+"及"+get_money+"金币";
                 }
+                if(!winner.equals("未知错误")) {
+                    game_number++;
+                    msgList.add(new Msg(game_n, Msg.TYPE_C));
+                    msgList.add(new Msg(msg1, Msg.TYPE_A));
+                    msgList.add(new Msg(builder.toString(), Msg.TYPE_B));
+                    msgList.add(new Msg(result, Msg.TYPE_D));
 
-                game_number++;
-                msgList.add(new Msg(game_n,Msg.TYPE_C));
-                msgList.add(new Msg(msg1,Msg.TYPE_A));
-                msgList.add(new Msg(builder.toString(),Msg.TYPE_B));
-                msgList.add(new Msg(result,Msg.TYPE_D));
+                    updateMoney();
 
-                updateMoney();
-
-                if(msgList.size()!=0){
-                    initView.setVisibility(View.GONE);
+                    if (msgList.size() != 0) {
+                        initView.setVisibility(View.GONE);
+                    }
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.scrollToPosition(msgList.size() - 1);
                 }
-                recyclerView.setAdapter(adapter);
-                recyclerView.scrollToPosition(msgList.size()-1);
             }
         };
         getActivity().registerReceiver(Receiver,intentFilter);

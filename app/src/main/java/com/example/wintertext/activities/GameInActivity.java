@@ -91,6 +91,8 @@ public class GameInActivity extends AppCompatActivity {
     private String TAG = "123";
     private ExecutorService executorService = Executors.newCachedThreadPool();
     private MediaPlayer mq1,mq2,mq3,mw,me,mr1,mr2,ntm;
+    private AlertDialog.Builder dialog;
+    private int real_a_life,real_b_life;
 
     @SuppressLint("NonConstantResourceId")
     @Override
@@ -208,6 +210,7 @@ public class GameInActivity extends AppCompatActivity {
         buttons.add(e);
         buttons.add(r);
         imageButtonClick = new ImageButtonClick(buttons);
+        dialog = new AlertDialog.Builder(GameInActivity.this);
     }
 
     //以死相进
@@ -259,6 +262,9 @@ public class GameInActivity extends AppCompatActivity {
                 yong_en.setSteal(100);
             }
 
+            real_a_life = yong_en.getLife();
+            real_b_life = ya_suo.getLife();
+
             initSetting();
 
             A_life = yong_en.getLife();
@@ -267,7 +273,6 @@ public class GameInActivity extends AppCompatActivity {
             kill_dogface_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     kill_solve();
                 }
             });
@@ -451,6 +456,7 @@ public class GameInActivity extends AppCompatActivity {
 
     //判断结束游戏的方法
     private void endGame() {
+        update();
         executorService.execute(new game_end_show(1200));
     }
 
@@ -472,10 +478,10 @@ public class GameInActivity extends AppCompatActivity {
                 public void run() {
                     if(ya_suo.getLife()==0 && yong_en.getLife()!=0){
                         end = true;
-                        winner = yong_en.getName();
+                        winner = "封魔剑魂";
                         imageButtonClick.endClick();
                         kill_dogface_btn.setEnabled(false);
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
+                        dialog = new AlertDialog.Builder(GameInActivity.this);
                         dialog.setMessage("你输掉了对局！")
                                 .setCancelable(false)
                                 .setNegativeButton("查看", new DialogInterface.OnClickListener() {
@@ -492,10 +498,10 @@ public class GameInActivity extends AppCompatActivity {
                                 }).show();
                     }else if(ya_suo.getLife()!=0 && yong_en.getLife()==0){
                         end = true;
-                        winner = ya_suo.getName();
+                        winner = "疾风剑豪";
                         imageButtonClick.endClick();
                         kill_dogface_btn.setEnabled(false);
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
+                        dialog = new AlertDialog.Builder(GameInActivity.this);
                         dialog.setMessage("你赢得了对局！")
                                 .setCancelable(false)
                                 .setNegativeButton("查看", new DialogInterface.OnClickListener() {
@@ -515,7 +521,7 @@ public class GameInActivity extends AppCompatActivity {
                         winner = "平局";
                         imageButtonClick.endClick();
                         kill_dogface_btn.setEnabled(false);
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(GameInActivity.this);
+                        dialog = new AlertDialog.Builder(GameInActivity.this);
                         dialog.setMessage("平局！")
                                 .setCancelable(false)
                                 .setNegativeButton("查看", new DialogInterface.OnClickListener() {
@@ -692,7 +698,7 @@ public class GameInActivity extends AppCompatActivity {
                 B_hurtToA = yasuo_Q_theoretical_hurt();
                 A_life-=B_hurtToA;
 
-                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
+                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,real_b_life);
 
                 total_hurt_B+=B_hurtToA;
                 total_B_hui_fu+=B_xi_xue;
@@ -705,7 +711,7 @@ public class GameInActivity extends AppCompatActivity {
                 yasuo_q_and_message(300,B_jn,q_number);
             }else{
                 B_hurtToA = yasuo_Q_theoretical_hurt();
-                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
+                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,real_b_life);
 
                 total_hurt_B+=B_hurtToA;
                 total_B_hui_fu+=B_xi_xue;
@@ -727,8 +733,8 @@ public class GameInActivity extends AppCompatActivity {
                 B_life-=A_hurtToB;
 
 
-                A_xi_xue = life_steal(A_hurtToB,yong_en.getSteal(),A_life,yong_en.getLife());
-                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
+                A_xi_xue = life_steal(A_hurtToB,yong_en.getSteal(),A_life,real_a_life);
+                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,real_b_life);
 
                 total_hurt_A+=A_hurtToB;
                 total_A_hui_fu+=A_xi_xue;
@@ -750,7 +756,7 @@ public class GameInActivity extends AppCompatActivity {
                 //单独计算亚索伤害
                 happy = false;
                 B_hurtToA = yasuo_Q_theoretical_hurt();
-                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
+                B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,real_b_life);
 
                 total_hurt_B+=B_hurtToA;
                 total_B_hui_fu+=B_xi_xue;
@@ -977,7 +983,7 @@ public class GameInActivity extends AppCompatActivity {
     //永恩不击飞的操作
     private void personal_yongen(int A_hurt_all){
         A_hurtToB = A_hurt_all;
-        A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,yong_en.getLife());
+        A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,real_a_life);
 
         total_hurt_A += A_hurtToB;
         total_A_hui_fu += A_xi_xue;
@@ -994,7 +1000,7 @@ public class GameInActivity extends AppCompatActivity {
     //亚索不击飞的操作
     private void personal_yasuo(int B_hurt_A){
         B_hurtToA = B_hurt_A;
-        B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,ya_suo.getLife());
+        B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,real_a_life);
 
         A_life-=B_hurtToA;
         B_life+=B_xi_xue;
@@ -1016,7 +1022,7 @@ public class GameInActivity extends AppCompatActivity {
             if (A_jn.equals("错玉切")) {
                 //击飞操作
                 A_hurtToB = A_hurt_all;
-                A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,yong_en.getLife());
+                A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,real_a_life);
 
                 total_hurt_A += A_hurtToB;
                 total_A_hui_fu += A_xi_xue;
@@ -1033,7 +1039,7 @@ public class GameInActivity extends AppCompatActivity {
 
                 //击飞后的额外操作
                 int A_hurt_two = yong_en_all_hurt(4);
-                int A_xi_xue_two = life_steal(A_hurt_two, yong_en.getSteal(),A_life,yong_en.getLife());
+                int A_xi_xue_two = life_steal(A_hurt_two, yong_en.getSteal(),A_life,real_a_life);
 
                 total_hurt_A += A_hurt_two;
                 total_A_hui_fu += A_xi_xue_two;
@@ -1050,7 +1056,7 @@ public class GameInActivity extends AppCompatActivity {
             } else if (A_jn.equals("封尘绝念斩")) {
                 //击飞操作
                 A_hurtToB = A_hurt_all;
-                A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,yong_en.getLife());
+                A_xi_xue = life_steal(A_hurtToB, yong_en.getSteal(),A_life,real_a_life);
 
                 total_hurt_A += A_hurtToB;
                 total_A_hui_fu += A_xi_xue;
@@ -1067,7 +1073,7 @@ public class GameInActivity extends AppCompatActivity {
 
                 //击飞后的额外操作
                 int A_hurt_two = yong_en_all_hurt(3);
-                int A_xi_xue_two = life_steal(A_hurt_two, yong_en.getSteal(),A_life,yong_en.getLife());
+                int A_xi_xue_two = life_steal(A_hurt_two, yong_en.getSteal(),A_life,real_a_life);
 
                 total_hurt_A += A_hurt_two;
                 total_A_hui_fu += A_xi_xue_two;
@@ -1177,7 +1183,7 @@ public class GameInActivity extends AppCompatActivity {
         Intent intent = new Intent("com.example.wintertext.GameInActivity.finish");
 
         //计算获取的经验值
-        if(winner.equals("疾风剑豪")){
+        if("疾风剑豪".equals(winner)){
             exc = 20 + ya_suo.getGrade();
             if(SI){
                 exc *= 2;
@@ -1186,7 +1192,7 @@ public class GameInActivity extends AppCompatActivity {
             }else if(BING){
                 exc *= 1.5;
             }
-        }else if(winner.equals("封魔剑魂")){
+        }else if("封魔剑魂".equals(winner)){
             exc = 5 + ya_suo.getGrade();
         }else{
             exc = 10 + ya_suo.getGrade();
@@ -1194,11 +1200,15 @@ public class GameInActivity extends AppCompatActivity {
 
         //计算获取的金币
         get_money = kill_dogface * 5;
-        if(winner.equals("疾风剑豪")){
+        if("疾风剑豪".equals(winner)){
             get_money+=300;
         }
 
-        intent.putExtra("winner",winner);
+        if(winner!=null) {
+            intent.putExtra("winner", winner);
+        }else{
+            intent.putExtra("winner","未知错误");
+        }
         intent.putExtra("final_A_life",yong_en.getLife());
         intent.putExtra("final_B_life",ya_suo.getLife());
         intent.putExtra("all_dogface_hurt_to_A",total_dogface_ToA);
@@ -1240,5 +1250,11 @@ public class GameInActivity extends AppCompatActivity {
             transferDataToFragment_situation();
         }
         super.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }
