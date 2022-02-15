@@ -59,12 +59,14 @@ public class FragmentGame_situation1 extends Fragment {
     private int game_number = 1;
     private int get_money;
     private int kill_dogface = 0;
+    private SharedGamePlayerData sharedGamePlayerData;
+    private GamePlayer gamePlayer;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initBroadcastListener();
         initView();
+        initBroadcastListener();
         initData();
     }
 
@@ -78,6 +80,8 @@ public class FragmentGame_situation1 extends Fragment {
         initView = view.findViewById(R.id.situation_initView);
         adapter = new MsgRecyclerViewAdapter(msgList);
         recyclerView = view.findViewById(R.id.game_situation_rv);
+        gamePlayer = new GamePlayer();
+        sharedGamePlayerData = new ViewModelProvider(requireActivity(),new ViewModelProvider.NewInstanceFactory()).get(SharedGamePlayerData.class);
     }
 
     @Nullable
@@ -154,8 +158,6 @@ public class FragmentGame_situation1 extends Fragment {
     }
 
     private void updateMoney(){
-        SharedGamePlayerData sharedGamePlayerData = new ViewModelProvider(requireActivity(),new ViewModelProvider.NewInstanceFactory()).get(SharedGamePlayerData.class);
-        GamePlayer gamePlayer = new GamePlayer();
         gamePlayer.setMoney(get_money);
         gamePlayer.setExc(get_exc);
         sharedGamePlayerData.setData(gamePlayer);

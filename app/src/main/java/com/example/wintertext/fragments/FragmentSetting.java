@@ -159,7 +159,7 @@ public class FragmentSetting extends Fragment {
         mediaPlayer = MediaPlayer.create(getContext(),R.raw.yasuobck);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
-        music_start.setBackground(start);
+        music_start.setBackground(pause);
 
         myDatabaseHelper = new MyDatabaseHelper(getContext(),"Game.db",null,1);
         db = myDatabaseHelper.getWritableDatabase();
