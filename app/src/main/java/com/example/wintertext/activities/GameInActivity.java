@@ -241,11 +241,11 @@ public class GameInActivity extends AppCompatActivity {
     //游戏
     public  void gamePlay(boolean SI,boolean SHENG,boolean JING,boolean BING){
             if(SI){
-                yong_en.setAttack(yong_en.getAttack()*4);
-                yong_en.setDefense(yong_en.getDefense()*4);
-                yong_en.setLife(yong_en.getLife()*4);
-                yong_en.setStrike(yong_en.getStrike()*4);
-                yong_en.setSteal(yong_en.getSteal()*4);
+                yong_en.setAttack(yong_en.getAttack()*3);
+                yong_en.setDefense(yong_en.getDefense()*3);
+                yong_en.setLife(yong_en.getLife()*3);
+                yong_en.setStrike(yong_en.getStrike()*3);
+                yong_en.setSteal(yong_en.getSteal()*3);
                 yong_en_life.setText(String.valueOf(yong_en.getLife()));
             }
             if(SHENG){
