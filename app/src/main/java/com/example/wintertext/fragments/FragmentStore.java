@@ -152,44 +152,45 @@ public class FragmentStore extends Fragment {
         resources.add(resource);
         recyclerView.setAdapter(adapter);
         my_money -= cast_money;
+        Log.d(TAG, "afterBought: "+add_strike);
 
         Cursor cursor = db.query("Game",null,"name = ?",new String[]{"yasuo"},null,null,null);
         if(cursor.moveToFirst()){
-            my_money = cursor.getInt(cursor.getColumnIndex("money"));
             life = cursor.getInt(cursor.getColumnIndex("life"));
             attack = cursor.getInt(cursor.getColumnIndex("attack"));
             defense = cursor.getInt(cursor.getColumnIndex("defense"));
             strike = cursor.getInt(cursor.getColumnIndex("strike"));
             steal = cursor.getInt(cursor.getColumnIndex("steal"));
+            Log.d(TAG, "afterBought:2 "+strike);
         }
         cursor.close();
-
         values.put("money",my_money);
 
         if(add_attack!=0){
             attack+=add_attack;
             values.put("attack",attack);
         }
+
         if(add_defense!=0){
             defense+=add_defense;
             values.put("defense",defense);
         }
-        if(add_strike!=0 && (strike+add_attack < 100 || strike+add_attack == 100)){
-            strike+=add_strike;
-            values.put("strike",strike);
-        }else if(strike == 100){
 
-        }else if(strike + add_strike > 100){
+        if(add_strike!=0 && (strike+add_strike < 100 || strike+add_strike == 100)){
+            strike+=add_strike;
+            Log.d(TAG, "afterBought:3 "+strike);
+            values.put("strike",strike);
+        }else if(strike == 100 || strike + add_strike >100){
             values.put("strike",100);
         }
+
         if(add_steal!=0 && (steal+add_steal < 100 || steal+add_steal == 100)) {
             steal += add_steal;
             values.put("steal", steal);
-        }else if(steal == 100){
-
-        }else if(steal + add_steal >100){
+        }else if(steal == 100 || steal + add_steal > 100){
             values.put("steal",100);
         }
+
         if(add_life!=0){
             life+=add_life;
             values.put("life",life);
@@ -200,7 +201,6 @@ public class FragmentStore extends Fragment {
         values.clear();
         values.put("eq_name",name);
         values.put("eq_image",resource);
-        Log.d(TAG, "afterBought: "+resource);
         db.insert("Equipment",null,values);
         values.clear();
         Intent intent = new Intent("com.example.wintertext.update_setting");
@@ -318,11 +318,11 @@ public class FragmentStore extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        dbHelper = new MyDatabaseHelper(getContext(),"Game.db",null,1);
-        db = dbHelper.getWritableDatabase();
-
         gamePlayer = new GamePlayer();
         values = new ContentValues();
+
+        dbHelper = new MyDatabaseHelper(getContext(),"Game.db",null,1);
+        db = dbHelper.getWritableDatabase();
 
         //添加到List中
         buttons.add(button1);

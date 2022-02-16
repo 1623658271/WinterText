@@ -74,6 +74,7 @@ public class FragmentSetting extends Fragment {
             @Override
             public void onReceive(Context context, Intent intent) {
                 initData();
+                Log.d(TAG, "onReceive: "+i_strike);
             }
         };
         getActivity().registerReceiver(receiver,intentFilter);
@@ -202,14 +203,14 @@ public class FragmentSetting extends Fragment {
             a_steal = cursor2.getInt(cursor2.getColumnIndex("steal"));
         }
         //炮车同理
-        cursor.close();
+        cursor2.close();
         Cursor cursor3 = db.query("Game",null,"name = ?",new String[]{"pao_che"},null,null,null);
         if(cursor3.moveToFirst()) {
             //遍历cursor对象，取出数据
             dog_grade = cursor3.getInt(cursor3.getColumnIndex("grade"));
             dog_attack = cursor3.getInt(cursor3.getColumnIndex("attack"));
         }
-        cursor.close();
+        cursor3.close();
         music_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
