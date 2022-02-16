@@ -134,7 +134,7 @@ public class FragmentStore extends Fragment {
             } else if (na.equals("巨人腰带")) {
                 afterBought("巨人腰带",R.drawable.juren,0,0,0,0,480,900);
             } else if (na.equals("不朽盾弓")) {
-                afterBought("不朽盾弓",R.drawable.eqm_buxiudungong,50,0,10,12,0,3400);
+                afterBought("不朽盾弓",R.drawable.eqm_buxiudungong,50,0,10,12,0,2800);
             } else if (na.equals("无尽之刃")) {
                 afterBought("无尽之刃",R.drawable.wujingzhiren,70,0,20,0,0,3400);
             } else if (na.equals("饮血剑")) {
