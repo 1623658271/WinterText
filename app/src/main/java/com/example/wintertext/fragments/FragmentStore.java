@@ -64,6 +64,7 @@ public class FragmentStore extends Fragment {
     private MyDatabaseHelper dbHelper;
     private SQLiteDatabase db;
     private String TAG = "123";
+    private ContentValues values;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -145,12 +146,23 @@ public class FragmentStore extends Fragment {
     }
 
     //更新属性,装备栏等的方法
-    private void afterBought(String name, int resource,int add_attack,int add_defense,int add_strike,int add_steal,int add_life,int cast_money){
+    @SuppressLint("Range")
+    private void afterBought(String name, int resource, int add_attack, int add_defense, int add_strike, int add_steal, int add_life, int cast_money){
         equipments.add(name);
         resources.add(resource);
         recyclerView.setAdapter(adapter);
         my_money -= cast_money;
-        ContentValues values = new ContentValues();
+
+        Cursor cursor = db.query("Game",null,"name = ?",new String[]{"yasuo"},null,null,null);
+        if(cursor.moveToFirst()){
+            my_money = cursor.getInt(cursor.getColumnIndex("money"));
+            life = cursor.getInt(cursor.getColumnIndex("life"));
+            attack = cursor.getInt(cursor.getColumnIndex("attack"));
+            defense = cursor.getInt(cursor.getColumnIndex("defense"));
+            strike = cursor.getInt(cursor.getColumnIndex("strike"));
+            steal = cursor.getInt(cursor.getColumnIndex("steal"));
+        }
+        cursor.close();
 
         values.put("money",my_money);
 
@@ -165,10 +177,18 @@ public class FragmentStore extends Fragment {
         if(add_strike!=0 && (strike+add_attack < 100 || strike+add_attack == 100)){
             strike+=add_strike;
             values.put("strike",strike);
+        }else if(strike == 100){
+
+        }else if(strike + add_strike > 100){
+            values.put("strike",100);
         }
-        if(add_steal!=0 && (steal+add_steal < 100 || steal+add_steal == 100)){
-            steal+=add_steal;
-            values.put("steal",steal);
+        if(add_steal!=0 && (steal+add_steal < 100 || steal+add_steal == 100)) {
+            steal += add_steal;
+            values.put("steal", steal);
+        }else if(steal == 100){
+
+        }else if(steal + add_steal >100){
+            values.put("steal",100);
         }
         if(add_life!=0){
             life+=add_life;
@@ -176,6 +196,7 @@ public class FragmentStore extends Fragment {
         }
         my.setText(String.valueOf(my_money));
         db.update("Game",values,"name = ?",new String[]{"yasuo"});
+
         values.clear();
         values.put("eq_name",name);
         values.put("eq_image",resource);
@@ -189,8 +210,6 @@ public class FragmentStore extends Fragment {
     //初始化数据
     @SuppressLint("Range")
     private void initData() {
-        dbHelper = new MyDatabaseHelper(getContext(),"Game.db",null,1);
-        db = dbHelper.getWritableDatabase();
         Cursor cursor = db.query("Game",null,"name = ?",new String[]{"yasuo"},null,null,null);
         if(cursor.moveToFirst()){
             my_money = cursor.getInt(cursor.getColumnIndex("money"));
@@ -299,8 +318,11 @@ public class FragmentStore extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
 
+        dbHelper = new MyDatabaseHelper(getContext(),"Game.db",null,1);
+        db = dbHelper.getWritableDatabase();
 
         gamePlayer = new GamePlayer();
+        values = new ContentValues();
 
         //添加到List中
         buttons.add(button1);

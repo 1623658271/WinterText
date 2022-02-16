@@ -1006,7 +1006,7 @@ public class GameInActivity extends AppCompatActivity {
     //亚索不击飞的操作
     private void personal_yasuo(int B_hurt_A){
         B_hurtToA = B_hurt_A;
-        B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,real_a_life);
+        B_xi_xue = life_steal(B_hurtToA,ya_suo.getSteal(),B_life,real_b_life);
 
         A_life-=B_hurtToA;
         B_life+=B_xi_xue;

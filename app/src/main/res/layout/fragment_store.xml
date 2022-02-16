@@ -285,7 +285,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="3400"
+                android:text="2800"
                 android:textColor="@color/yellow" />
         </LinearLayout>
 
