@@ -459,6 +459,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
     }
 
+    //返回请求结果
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -510,14 +511,14 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
     }
 
-    //老版本
+    //老版本<4.4
     private void handleImageBeforeKitKat(Intent data) {
         Uri uri = data.getData();
         String imagePath = getImagePath(uri,null);
         displayImage(imagePath);
     }
 
-    //新版本
+    //新版本>4.4
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();
@@ -668,10 +669,21 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"已授权",Toast.LENGTH_SHORT).show();
-        }else if(grantResults[0] == PackageManager.PERMISSION_DENIED){
-            Toast.makeText(this,"已禁止",Toast.LENGTH_SHORT).show();
+        switch (requestCode) {
+            case OPEN_ALBUM:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openAlbum();
+                }else{
+                    Toast.makeText(this,"已拒绝访问相册权限",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case TAKE_PHOTO:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    takePhoto();
+                }else{
+                    Toast.makeText(this,"已拒绝访问相机权限",Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 }

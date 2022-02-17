@@ -89,7 +89,7 @@ public class GameInActivity extends AppCompatActivity {
     private boolean SI = false,SHENG = false,BING = false,JING = false;
     private String winner = null;
     private String TAG = "123";
-    private ExecutorService executorService = Executors.newCachedThreadPool();
+    private ExecutorService executorService = Executors.newFixedThreadPool(5);
     private MediaPlayer mq1,mq2,mq3,mw,me,mr1,mr2,ntm;
     private AlertDialog.Builder dialog;
     private int real_a_life,real_b_life;

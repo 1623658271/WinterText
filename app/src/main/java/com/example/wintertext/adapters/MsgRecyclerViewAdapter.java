@@ -15,7 +15,7 @@ import com.example.wintertext.beans.Msg;
 import java.util.List;
 
 /**
- * description ： TODO:游戏外消息的适配器
+ * description ： TODO:游戏外战况消息rv的适配器
  * author : lfy
  * email : 1623658271@qq.com
  * date : 2022/2/1 17:34

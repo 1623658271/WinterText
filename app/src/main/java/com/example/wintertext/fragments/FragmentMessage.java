@@ -94,4 +94,12 @@ public class FragmentMessage extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_message,container,false);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(videoView.getVisibility()==View.GONE){
+            start_or_not();
+        }
+    }
 }

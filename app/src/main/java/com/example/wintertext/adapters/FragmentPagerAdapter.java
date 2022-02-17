@@ -8,7 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import java.util.ArrayList;
 
 /**
- * description ： TODO:联动适配器
+ * description ： TODO:vp适配器
  * author : lfy
  * email : 1623658271@qq.com
  * date : 2022/2/1 17:04
