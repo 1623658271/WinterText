@@ -37,6 +37,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -58,6 +59,7 @@ import com.example.wintertext.fragments.FragmentGame;
 import com.example.wintertext.fragments.FragmentMessage;
 import com.example.wintertext.fragments.FragmentSetting;
 import com.example.wintertext.fragments.FragmentStore;
+import com.example.wintertext.services.LongRunningService;
 import com.example.wintertext.utilities.MyDatabaseHelper;
 import com.example.wintertext.utilities.SharedGamePlayerData;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -105,12 +107,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private final int PHOTO_CROP_CHOOSE = 4;
     private Uri imageUrl;
     private File file;
-    private String real_path = null;
-    private final int TIME_MENTION = 1000 * 60 * 60 * 24;
-    private AlarmManager alarmManager;
-    private Calendar instance;
-    private Intent alarmIntent;
-    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,8 +150,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
 
     //加载成员的方法
     private void initView() {
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        instance = Calendar.getInstance();
         drawerLayout = findViewById(R.id.drawer_layout);
         viewPager2 = findViewById(R.id.main_view_pager2);
         adapter1 = new FragmentPagerAdapter(this);
@@ -199,12 +193,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     //设置各种事件的方法
     private void initEvent() {
         setSupportActionBar(toolbar);
-        instance.set(Calendar.HOUR_OF_DAY,0);
-        instance.set(Calendar.MINUTE,0);
-        instance.set(Calendar.SECOND,0);
-        alarmIntent = new Intent(this,NotificationBroadCast.class);
-        pendingIntent = PendingIntent.getBroadcast(this,0,alarmIntent,0);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,instance.getTimeInMillis(),TIME_MENTION,pendingIntent);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,26 +258,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 return false;
             }
         });
-    }
-
-
-    //新建广播接收器
-    class NotificationBroadCast extends BroadcastReceiver{
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-                NotificationChannel channel = new NotificationChannel("1","游戏",NotificationManager.IMPORTANCE_HIGH);
-                manager.createNotificationChannel(channel);
-            }
-            Notification notification = new NotificationCompat.Builder(MainActivity.this,"1")
-                    .setContentTitle("恩索的邀请")
-                    .setSmallIcon(R.drawable.android_image)
-                    .setContentText("今天救济金领了吗？升到三十级了吗？")
-                    .build();
-            manager.notify(1,notification);
-        }
     }
 
     //RadioGroup按钮与页面联动
@@ -685,5 +653,17 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        int Hours = 60*60*1000;
+        long triggerAtTime = SystemClock.elapsedRealtime() + Hours;
+        Intent i = new Intent(this,LongRunningService.class);
+        PendingIntent pi = PendingIntent.getService(this,0,i,0);
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pi);
     }
 }

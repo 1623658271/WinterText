@@ -26,7 +26,10 @@ import com.example.wintertext.R;
 import com.example.wintertext.activities.GameInActivity;
 import com.example.wintertext.beans.GamePlayer;
 import com.example.wintertext.beans.Msg;
+import com.example.wintertext.presenters.FragmentGamePresenter;
+import com.example.wintertext.presenters.IFragmentGamePresenter;
 import com.example.wintertext.utilities.ButtonChange;
+import com.example.wintertext.views.IFragmentGame;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -40,12 +43,13 @@ import java.util.List;
  * date : 2022/2/1 17:30
  */
 //对游戏1碎片的相关操作
-public class FragmentGame_game1 extends Fragment implements View.OnClickListener{
+public class FragmentGame_game1 extends Fragment implements View.OnClickListener, IFragmentGame {
     private MaterialButton button1, button2, button3, button4, button_start, button_ok,button_cancel;
     private View view;
     private List<MaterialButton> buttons;
     private ButtonChange buttonChanges;
     private String winner2;
+    private FragmentGamePresenter presenter;
     private MediaPlayer wind;
     private String TAG = "123";
 
@@ -96,11 +100,33 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
         button_cancel = view.findViewById(R.id.button_cancel);
         buttonChanges = new ButtonChange(buttons);
         wind = MediaPlayer.create(getContext(),R.raw.wind);
+        presenter = new FragmentGamePresenter(getContext(),this);
+
     }
 
     @Override
     public void onClick(View view) {
-        //设置一个小动画
+        switch (view.getId()) {
+            case R.id.button_game_start:
+                startSelect();
+                break;
+            case R.id.button_ok:
+                enterGame();
+                break;
+            case R.id.button_cancel:
+                stopSelect();
+        }
+    }
+
+    //重写onResume方法
+    @Override
+    public void onResume() {
+        super.onResume();
+        stopSelect();
+    }
+
+    @Override
+    public void startSelect() {
         ObjectAnimator animator = ObjectAnimator.ofFloat(button_start, "alpha", 1f, 0f);
         animator.setDuration(500);
         animator.addListener(new AnimatorListenerAdapter() {
@@ -112,58 +138,29 @@ public class FragmentGame_game1 extends Fragment implements View.OnClickListener
                 button_cancel.setVisibility(View.VISIBLE);
             }
         });
-        switch (view.getId()) {
-            case R.id.button_game_start:
-                animator.start();
-                buttonChanges.startSelect();
-                break;
-            case R.id.button_ok:
-                boolean stop = false;
-                    //是否选中一门
-                    for (MaterialButton materialButton : buttons) {
-                        if (materialButton.isChecked()) {
-                            stop = true;
-                            break;
-                        }
-                    }
-                    if(!stop){
-                        Toast.makeText(getContext(), "请选择一门进入", Toast.LENGTH_SHORT).show();
-                    }else{
-                        buttonChanges.stopSelect();
-                        button_ok.setVisibility(View.GONE);
-                        button_cancel.setVisibility(View.GONE);
-                        button_start.setVisibility(View.VISIBLE);
-                        wind.start();
-                        enterGameInActivity();
-                    }
-                break;
-            case R.id.button_cancel:
-                buttonChanges.cancelAll();
-                buttonChanges.stopSelect();
-                button_start.setVisibility(View.VISIBLE);
-                button_start.setAlpha(1f);
-                button_ok.setVisibility(View.GONE);
-                button_cancel.setVisibility(View.GONE);
-        }
+        animator.start();
+        buttonChanges.startSelect();
     }
 
-    //进入GameInActivity
-    private void enterGameInActivity() {
-        int i = 0;
-        for(MaterialButton materialButton:buttons){
-            if(materialButton.isChecked()){
-                i = materialButton.getId();
-            }
-        }
-        Intent intent = new Intent(getContext(),GameInActivity.class);
-        intent.putExtra("door",i);
-        startActivityForResult(intent,1);
-    }
-
-    //重写onResume方法
     @Override
-    public void onResume() {
-        super.onResume();
+    public void enterGame() {
+        if(buttonChanges.isSelected()){
+            wind.start();
+            buttonChanges.stopSelect();
+            button_ok.setVisibility(View.GONE);
+            button_cancel.setVisibility(View.GONE);
+            button_start.setVisibility(View.VISIBLE);
+        }
+        presenter.enterGame(buttonChanges.getFinalButton());
+    }
+
+    @Override
+    public void enterFalse() {
+        Toast.makeText(getContext(),"请选择一门进入!",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void stopSelect() {
         buttonChanges.cancelAll();
         buttonChanges.stopSelect();
         button_start.setVisibility(View.VISIBLE);

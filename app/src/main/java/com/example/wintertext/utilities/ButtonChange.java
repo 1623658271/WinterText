@@ -42,4 +42,23 @@ public class ButtonChange {
             materialButton.setChecked(false);
         }
     }
+    public int getFinalButton(){
+        int i = 0;
+        for(MaterialButton materialButton:buttons){
+            if(materialButton.isChecked()){
+                i = materialButton.getId();
+            }
+        }
+        return i;
+    }
+    public boolean isSelected(){
+        boolean stop = false;
+        for (MaterialButton materialButton : buttons) {
+            if (materialButton.isChecked()) {
+                stop = true;
+                break;
+            }
+        }
+        return stop;
+    }
 }
