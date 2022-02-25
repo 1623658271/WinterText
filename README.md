@@ -32,3 +32,4 @@ UI设计不行
 知识点，UI设计  
 阅读速度，查阅资料的能力  
 理解能力，整体思想  
+![恩索之战开发图](https://user-images.githubusercontent.com/89245928/155682827-f8b38c49-764f-462a-a79c-907da11ac0f6.png)
